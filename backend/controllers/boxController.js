@@ -40,7 +40,7 @@ module.exports = {
     create: function (req, res) {
         var box = new BoxModel({
 			name : req.body.name,
-			boxID : req.boxID
+			boxId : req.body.boxId
         });
 
         box.save(function (err, box) {

@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserContext } from "./userContext";
 import Header from "./components/Header";
-import Photos from "./components/Photos";
+import Boxes from "./components/Boxes";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
-import AddPhoto from "./components/AddPhoto";
+import AddBox from './components/AddBox';
+
 
 function App() {
   /**
@@ -47,10 +48,10 @@ function App() {
         <div className="App">
           <Header title="Urejanje Paketnikov"></Header>
           <Routes>
-            <Route path="/" exact element={<Photos />}></Route>
+            <Route path="/" exact element={<Boxes />}></Route>
             <Route path="/login" exact element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
-            <Route path="/publish" element={<AddPhoto />}></Route>
+            <Route path="/publish" element={<AddBox />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
           </Routes>
