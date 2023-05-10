@@ -3,7 +3,11 @@ var Schema = mongoose.Schema;
 
 var boxSchema = new Schema({
     'name' : String,
-    'boxId' : Number
+    'boxId' : Number,
+    'user_id' : {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+   }
 });
 
 module.exports = mongoose.model('box',boxSchema);
