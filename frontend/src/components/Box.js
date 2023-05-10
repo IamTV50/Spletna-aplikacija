@@ -13,7 +13,7 @@ function Box(props) {
           },
           body: JSON.stringify({
             "deliveryId": 0,
-            "boxId": 540,
+            "boxId": props.box.boxId,
             "tokenFormat": 2,
             "latitude": 0,
             "longitude": 0,
