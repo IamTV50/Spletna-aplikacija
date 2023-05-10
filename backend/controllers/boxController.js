@@ -1,3 +1,4 @@
+const boxModel = require('../models/boxModel.js');
 var BoxModel = require('../models/boxModel.js');
 
 module.exports = {
@@ -40,7 +41,8 @@ module.exports = {
     create: function (req, res) {
         var box = new BoxModel({
 			name : req.body.name,
-			boxId : req.body.boxId
+			boxId : req.body.boxId,
+            user_id: req.session.userId
         });
 
         box.save(function (err, box) {
@@ -54,6 +56,24 @@ module.exports = {
             return res.status(201).json(box);
         });
     },
+
+        myBoxes: function (req, res) {
+            var user_id=req.session.userId
+            console.log(user_id)
+            boxModel.find({'user_id': user_id},function (err, boxes) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when getting question.',
+                        error: err
+                    });
+                }
+                obj={}
+                logged_in = !(req.session  && typeof req.session.userId === 'undefined')
+                obj.logged_in=logged_in;
+                obj.boxes=boxes;
+                return res.json(boxes);
+            });
+        },
 
     update: function (req, res) {
         var id = req.params.id;
