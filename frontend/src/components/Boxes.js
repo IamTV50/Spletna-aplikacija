@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import React from 'react';
+
 import Box from './Box';
 import Cookies from 'js-cookie';
 
@@ -34,10 +36,15 @@ function Boxes() {
     <div>
     <h3>Boxes:</h3>
       <ul>
-        {boxes.map((box) => (
-          <>
-          <Box box={box.name} box_id={box.boxId} key={box._id}></Box></>
-        ))}
+      {boxes.length > 0 ? (
+      boxes.map((box) => (
+        <React.Fragment key={box._id}>
+          <Box box={box.name} box_id={box.boxId}></Box>
+        </React.Fragment>
+    ))
+    ) : (
+    <p>No boxes available.</p>
+    )}
       </ul>
   </div>
   );
