@@ -14,8 +14,10 @@ function requiresLogin(req, res, next){
 }
 
 router.get('/',boxController.list);
-router.get('/:id', boxController.show);
-router.get('/:id', requiresLogin, boxController.myBoxes);
+router.get('/showBox/:id', boxController.show);
+//router.get('/:id', requiresLogin, boxController.myBoxes);
+
+router.get('/my_boxes/:username', boxController.myBoxes);
 
 router.post('/', requiresLogin,  boxController.create);
 
