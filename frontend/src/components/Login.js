@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { UserContext } from '../userContext';
 import { Navigate } from 'react-router-dom';
+import Cookies from "js-cookie"
 
 function Login(){
     const [username, setUsername] = useState("");
@@ -18,7 +19,9 @@ function Login(){
                 username: username,
                 password: password
             })
-        });
+        })
+        
+        Cookies.set("uporabnik",username,7);
         const data = await res.json();
         if(data._id !== undefined){
             userContext.setUserContext(data);
