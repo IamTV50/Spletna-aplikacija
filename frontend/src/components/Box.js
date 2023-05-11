@@ -1,15 +1,8 @@
 
 import React from 'react';
+import Boxes from './Boxes';
 
-function Box(props){
-    console.log(props.box)
-    return (
-        <div className="card bg-dark text-dark mb-2">
-            <div className="card-img-overlay">
-                <h5 className="card-title">{props.box}</h5>
-            </div>
-        </div>
-    );
+
 
 function Box(props) {
   const handleClick = async () => {
@@ -24,7 +17,7 @@ function Box(props) {
           },
           body: JSON.stringify({
             "deliveryId": 0,
-            "boxId": props.box.boxId,
+            "boxId": props.box_id,
             "tokenFormat": 2,
             "latitude": 0,
             "longitude": 0,
@@ -42,17 +35,19 @@ function Box(props) {
       console.error(error);
     }
   };
-
+  console.log(props.box)
   return (
+    <>
     <div className="card bg-dark text-dark mb-2">
       <div className="card-img-overlay">
-        <h5 className="card-title">{props.box.name}</h5>
-        <button className="btn btn-primary float-end" onClick={handleClick}>
+        <h5 className="card-title">{props.box}</h5>
+        <button className="btn btn-primary float-end" onClick={()=>handleClick()}>
           Open Box
         </button>
       </div>
-    </div>
+    </div></>
   );
 }
+
 
 export default Box;
