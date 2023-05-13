@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { UserContext } from '../userContext';
 import { Navigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function Logout(){
     const userContext = useContext(UserContext); 
@@ -9,6 +10,7 @@ function Logout(){
             userContext.setUserContext(null);
             const res = await fetch("http://localhost:3001/users/logout");
         }
+        Cookies.remove("uporabnik");
         logout();
     }, []);
 

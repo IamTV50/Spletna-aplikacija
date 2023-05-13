@@ -10,7 +10,7 @@ module.exports = {
         BoxModel.find(function (err,boxes){
             if (err){
                 return res.status(500).json({
-                    message: 'Error when getting box banana',
+                    message: 'Error when getting box ',
                     error: err
                 });
             }
@@ -26,7 +26,7 @@ module.exports = {
         BoxModel.findOne({_id: id}, function (err, box) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting box juhu.',
+                    message: 'Error when getting box.',
                     error: err
                 });
             }
@@ -79,10 +79,10 @@ module.exports = {
             });
           }
       
-          console.log("banananana")
+          
         var user_id = user._id;
         var neke = new ObjectId(user_id);
-        console.log(neke)
+        
       
           // Use the retrieved user_id in your query
           boxModel.find({ "user_id": neke }, function (err, boxes) {
@@ -109,7 +109,7 @@ module.exports = {
         BoxModel.findOne({_id: id}, function (err, box) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting box temp',
+                    message: 'Error when getting box',
                     error: err
                 });
             }
