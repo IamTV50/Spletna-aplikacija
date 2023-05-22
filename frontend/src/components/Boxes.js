@@ -35,18 +35,20 @@ function Boxes() {
   return (
     <div>
     <h3>Boxes:</h3>
-      <ul>
+    <ul>
       {boxes.length > 0 ? (
-      boxes.map((box) => (
-        <React.Fragment key={box._id}>
-          <Box box={box.name} box_id={box.boxId}></Box>
-        </React.Fragment>
-    ))
-    ) : (
-    <p>No boxes available.</p>
-    )}
-      </ul>
+        boxes.map((box) => (
+          <React.Fragment key={box._id}>
+            <Box box={box.name} box_id={box.boxId}></Box>
+            <br />
+          </React.Fragment>
+        ))
+      ) : (
+        <p>No boxes found.</p>
+      )}
+    </ul>
   </div>
+  
   );
 }
 
