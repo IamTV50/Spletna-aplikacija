@@ -30,22 +30,70 @@ function Box(props) {
         }
       );
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
   };
-  console.log(props.box)
+  const handleRemove = async () => {
+  try {
+    const response = await fetch(`http://localhost:3001/box/${props.box_id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      // Removal successful
+      console.log("Box removed successfully");
+      // Redirect to a success page or perform any additional actions
+    } else {
+      // Removal failed
+      console.log("Failed to remove the box");
+      // Handle error or display error message to the user
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleEdit = async () => {
+  try {
+    const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(/* Put your edit data here */),
+    });
+
+    if (response.ok) {
+      // Editing successful
+      console.log("Box edited successfully");
+      // Redirect to a success page or perform any additional actions
+    } else {
+      // Editing failed
+      console.log("Failed to edit the box");
+      // Handle error or display error message to the user
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
   return (
     <>
-    <div className="card bg-dark text-dark mb-2">
-      <div className="card-img-overlay">
-        <h5 className="card-title">{props.box}</h5>
-        <button className="btn btn-primary float-end" onClick={()=>handleClick()}>
-          Open Box
-        </button>
-      </div>
-    </div></>
+<div className="card mb-2">
+  <div className="card-body">
+    <h5 className="card-title">{props.box}</h5>
+    <button className="btn btn-primary float-end mr-2" onClick={() => handleEdit()}>
+      Edit Box
+    </button>
+    <button className="btn btn-danger float-end" onClick={() => handleRemove()}>
+      Remove Box
+    </button>
+    <button className="btn btn-primary float-end" onClick={() => handleClick()}>
+      Open Box
+    </button>
+  </div>
+</div>
+</>
   );
 }
 
