@@ -121,7 +121,7 @@ module.exports = {
             }
 
             box.name = req.body.name ? req.body.name : box.name;
-			box.boxID = req.body.boxID ? req.body.boxID : box.boxID;
+			box.boxId = req.body.boxId ? req.body.boxId : box.boxId;
 			
             box.save(function (err, box) {
                 if (err) {

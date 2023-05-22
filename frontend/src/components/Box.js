@@ -82,7 +82,11 @@ link.click();
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(
+            {
+             name: "Neke",
+             boxId: 7,
 
+            }
         ),
       });
   
