@@ -76,7 +76,7 @@ link.click();
   
   const handleEdit = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/box/${props.boxId}/edit`, {
+      const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
