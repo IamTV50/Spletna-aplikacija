@@ -108,4 +108,48 @@ module.exports = {
         });
     },
 
+    myLogs: function (req, res) {
+        var username = req.params.username
+        //var username = Cookies.get("uporabnik"); // Retrieve the username from the cookie
+       // var neke = new ObjectId(username);
+        console.log(username)
+        // Find the user by username and retrieve the user ID
+        userModel.findOne({ "username": username }, function (err, user) {
+            console.log(err)
+          if (err) {
+            return res.status(500).json({
+              message: 'Error when finding user.',
+              error: err
+            });
+          }
+          if (!user) {
+            return res.status(404).json({
+              message: 'User not found.'
+            });
+          }
+      
+          
+        var user_id = user._id;
+        var neke = new ObjectId(user_id);
+        
+      
+          // Use the retrieved user_id in your query
+          boxModel.find({ "user_id": neke }, function (err, boxes) {
+            if (err) {
+              return res.status(500).json({
+                message: 'Error when getting boxes.',
+                error: err
+              });
+            }
+      
+            obj = {};
+            logged_in = !(req.session && typeof req.session.userId === 'undefined');
+            obj.logged_in = logged_in;
+            obj.boxes = boxes;
+      
+            return res.json(boxes);
+          });
+        });
+      },
+
 }

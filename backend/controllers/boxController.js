@@ -138,7 +138,6 @@ module.exports = {
 
     remove: function (req, res) {
         var id = req.params.id;
-
         BoxModel.findByIdAndRemove(id, function (err, box) {
             if (err) {
                 return res.status(500).json({

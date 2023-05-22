@@ -39,7 +39,7 @@ function Boxes() {
       {boxes.length > 0 ? (
         boxes.map((box) => (
           <React.Fragment key={box._id}>
-            <Box box={box.name} box_id={box.boxId}></Box>
+            <Box box={box.name} box_id={box._id} boxId={box.boxId}></Box>
             <br />
           </React.Fragment>
         ))

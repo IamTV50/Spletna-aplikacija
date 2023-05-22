@@ -21,7 +21,7 @@ router.get('/my_boxes/:username', boxController.myBoxes);
 
 router.post('/', requiresLogin,  boxController.create);
 
-router.put('/:id', boxController.update);
+router.put('/:id/edit', boxController.update);
 
 router.delete('/:id', boxController.remove);
 
