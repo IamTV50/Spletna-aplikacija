@@ -17,7 +17,7 @@ function Box(props) {
           },
           body: JSON.stringify({
             "deliveryId": 0,
-            "boxId": props.box_id,
+            "boxId": props.boxId,
             "tokenFormat": 5,
             "latitude": 0,
             "longitude": 0,
@@ -81,7 +81,9 @@ link.click();
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(/* Put your edit data here */),
+        body: JSON.stringify(
+
+        ),
       });
   
 
