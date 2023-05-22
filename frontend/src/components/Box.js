@@ -30,7 +30,6 @@ function Box(props) {
         }
       );//Tota še dela
       const data = await response.json();
-
       const byteCharacters = atob(data.data);
 
 const byteNumbers = new Array(byteCharacters.length);
@@ -48,54 +47,58 @@ link.href = url;
 link.download = 'sound.mp3';
 document.body.appendChild(link);
 link.click();
-
     } catch (error) {
       console.error(error);
     }
   };
+
   const handleRemove = async () => {
-  try {
-    const response = await fetch(`http://localhost:3001/box/${props.box_id}`, {
-      method: 'DELETE',
-    });
-
-    if (response.ok) {
-      // Removal successful
-      console.log("Box removed successfully");
-      // Redirect to a success page or perform any additional actions
-    } else {
-      // Removal failed
-      console.log("Failed to remove the box");
-      // Handle error or display error message to the user
+    try {
+    console.log(props.box._id)
+      const response = await fetch(`http://localhost:3001/box/${props.box_id}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        // Removal successful
+        console.log("Box removed successfully");
+        // Redirect to a success page or perform any additional actions
+      } else {
+        // Removal failed
+        console.log("Failed to remove the box");
+        // Handle error or display error message to the user
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
+  
+  const handleEdit = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(/* Put your edit data here */),
+      });
+  
 
-const handleEdit = async () => {
-  try {
-    const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(/* Put your edit data here */),
-    });
-
-    if (response.ok) {
-      // Editing successful
-      console.log("Box edited successfully");
-      // Redirect to a success page or perform any additional actions
-    } else {
-      // Editing failed
-      console.log("Failed to edit the box");
-      // Handle error or display error message to the user
+      if (response.ok) {
+        // Editing successful
+        console.log("Box edited successfully");
+        // Redirect to a success page or perform any additional actions
+      } else {
+        // Editing failed
+        console.log("Failed to edit the box");
+        // Handle error or display error message to the user
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
+
+  console.log(props.box)
   return (
     <>
 <div className="card mb-2">
