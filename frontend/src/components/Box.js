@@ -54,7 +54,8 @@ link.click();
 
   const handleRemove = async () => {
     try {
-    console.log(props.box._id)
+    console.log(props.boxId)
+
       const response = await fetch(`http://localhost:3001/box/${props.box_id}`, {
         method: 'DELETE',
       });
@@ -75,7 +76,7 @@ link.click();
   
   const handleEdit = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
+      const response = await fetch(`http://localhost:3001/box/${props.boxId}/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ link.click();
       });
   
 
-      if (response.ok) {
+      if (response.status===200) {
         // Editing successful
         console.log("Box edited successfully");
         // Redirect to a success page or perform any additional actions
