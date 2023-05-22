@@ -18,7 +18,7 @@ function Box(props) {
           body: JSON.stringify({
             "deliveryId": 0,
             "boxId": props.box_id,
-            "tokenFormat": 2,
+            "tokenFormat": 5,
             "latitude": 0,
             "longitude": 0,
             "qrCodeInfo": "string",
@@ -28,8 +28,27 @@ function Box(props) {
             "addAccessLog": true
           }),
         }
-      );
+      );//Tota še dela
       const data = await response.json();
+
+      const byteCharacters = atob(data.data);
+
+const byteNumbers = new Array(byteCharacters.length);
+for (let i = 0; i < byteCharacters.length; i++) {
+  byteNumbers[i] = byteCharacters.charCodeAt(i);
+}
+
+const byteArray = new Uint8Array(byteNumbers);
+
+const blob = new Blob([byteArray], {type: 'audio/mpeg'});
+const url = URL.createObjectURL(blob);
+
+const link = document.createElement('a');
+link.href = url;
+link.download = 'sound.mp3';
+document.body.appendChild(link);
+link.click();
+
     } catch (error) {
       console.error(error);
     }
