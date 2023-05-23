@@ -83,8 +83,8 @@ link.click();
         },
         body: JSON.stringify(
             {
-             name: "Neke",
-             boxId: 7,
+             name: ,
+             boxId: ,
 
             }
         ),
