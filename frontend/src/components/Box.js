@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-function Box(props) {
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const toggleDeleteModal = () => {
     setShowDeleteModal(!showDeleteModal);
   };
+
 
   const handleClick = async () => {
     try {
@@ -74,7 +73,8 @@ function Box(props) {
   };
 
   const handleEdit = async () => {
-    try {
+    
+   /* try {
       const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
         method: 'PUT',
         headers: {
@@ -93,50 +93,12 @@ function Box(props) {
       }
     } catch (error) {
       console.error(error);
-    }
+    }*/
+    navigate("/editBox", { state: { box_id: props.box_id } });
   };
 
   return (
-    <div className="card mb-2" style={{ width: "33.33%" }}>
-      <div className="card-body">
-        <div className="card-body d-flex flex-column align-items-center">
-          <h5 className="card-title">{props.box}</h5>
-          <div className="d-flex flex-column">
-            <button className="btn btn-primary btn-sm mb-2" onClick={handleClick}>
-              Open Box
-            </button>
-            <button className="btn btn-primary btn-sm" onClick={handleEdit}>
-              Edit Box
-            </button>
-          </div>
-        </div>
-        <div className="close-container">
-          <button type="button" className="close" aria-label="Close" onClick={toggleDeleteModal}>
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </div>
-      <div className={showDeleteModal ? 'modal show d-block' : 'modal'} tabIndex="-1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Delete Box</h5>
-            </div>
-            <div className="modal-body">
-              <p>Are you sure you want to delete this box?</p>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={toggleDeleteModal}>
-                Cancel
-              </button>
-              <button type="button" className="btn btn-danger" onClick={handleRemove}>
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
   );
 }
 

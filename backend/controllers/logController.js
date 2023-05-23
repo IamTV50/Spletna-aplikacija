@@ -1,5 +1,6 @@
 const logModel = require('../models/logModel.js');
 var LogModel = require('../models/logModel.js');
+const userModel=require('../models/userModel.js')
 
 const { ObjectId } = require('mongodb');
 
@@ -134,7 +135,7 @@ module.exports = {
         
       
           // Use the retrieved user_id in your query
-          boxModel.find({ "user_id": neke }, function (err, boxes) {
+          LogModel.find({ "user_id": neke }, function (err, logs) {
             if (err) {
               return res.status(500).json({
                 message: 'Error when getting boxes.',
@@ -145,9 +146,9 @@ module.exports = {
             obj = {};
             logged_in = !(req.session && typeof req.session.userId === 'undefined');
             obj.logged_in = logged_in;
-            obj.boxes = boxes;
+            obj.logs = logs;
       
-            return res.json(boxes);
+            return res.json(logs);
           });
         });
       },

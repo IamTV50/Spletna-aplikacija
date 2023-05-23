@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 function Boxes() {
   const [boxes, setBoxes] = useState([]);
-  const neke = Cookies.get('uporabnik');
+
 
   useEffect(() => {
     const getBoxes = async () => {
@@ -24,22 +24,7 @@ function Boxes() {
     getBoxes();
   }, [neke]);
 
-  const handleRemove = async (boxId) => {
-    try {
-      const response = await fetch(`http://localhost:3001/box/${boxId}`, {
-        method: 'DELETE',
-      });
 
-      if (response.ok) {
-        console.log('Box removed successfully');
-        setBoxes(boxes.filter((box) => box._id !== boxId));
-      } else {
-        console.log('Failed to remove the box');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <div>
