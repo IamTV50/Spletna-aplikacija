@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserContext } from "./userContext";
+import Footer from './components/Footer';
 import Header from "./components/Header";
 import Boxes from "./components/Boxes";
 import Login from "./components/Login";
@@ -56,6 +57,7 @@ function App() {
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
           </Routes>
+          <Footer></Footer>
         </div>
       </UserContext.Provider>
     </BrowserRouter>
