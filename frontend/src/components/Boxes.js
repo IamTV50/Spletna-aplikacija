@@ -1,54 +1,67 @@
-import { useState, useEffect } from 'react';
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Box from './Box';
 import Cookies from 'js-cookie';
 
-
-
 function Boxes() {
   const [boxes, setBoxes] = useState([]);
-  const neke = Cookies.get("uporabnik");
-
-  function getBoxes() {
-    //var neke = Cookies.get("uporabnik")
-    console.log(neke)
-    fetch(`http://localhost:3001/box/my_boxes/${neke}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data); // Check the fetched data in the console
-        setBoxes(data);
-        return data
-      })
-      .catch((err) => {
-        console.log("juhu");
-        console.log(err);
-      });
-  }
-  
+  const neke = Cookies.get('uporabnik');
 
   useEffect(() => {
+    const getBoxes = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/box/my_boxes/${neke}`);
+        if (response.ok) {
+          const data = await response.json();
+          setBoxes(data);
+        } else {
+          console.log('Failed to fetch boxes');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     getBoxes();
-    //setBoxes(data)
   }, [neke]);
+
+  const handleRemove = async (boxId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/box/${boxId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        console.log('Box removed successfully');
+        setBoxes(boxes.filter((box) => box._id !== boxId));
+      } else {
+        console.log('Failed to remove the box');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
-    <h3>Boxes:</h3>
-    <ul>
-      {boxes.length > 0 ? (
-        boxes.map((box) => (
-          <React.Fragment key={box._id}>
-            <Box box={box.name} box_id={box._id} boxId={box.boxId}></Box>
-            <br />
-          </React.Fragment>
-        ))
-      ) : (
-        <p>No boxes found.</p>
-      )}
-    </ul>
-  </div>
-  
+      <h3>Boxes:</h3>
+      <ul>
+        {boxes.length > 0 ? (
+          boxes.map((box) => (
+            <React.Fragment key={box._id}>
+              <Box
+                box={box.name}
+                box_id={box._id}
+                boxId={box.boxId}
+                onRemove={() => handleRemove(box._id)}
+              />
+              <br />
+            </React.Fragment>
+          ))
+        ) : (
+          <p>No boxes found.</p>
+        )}
+      </ul>
+    </div>
   );
 }
 
