@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 function Box(props) {
-
+  const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const toggleDeleteModal = () => {
@@ -10,6 +10,7 @@ function Box(props) {
 
   const handleClick = async () => {
     try {
+      console.log("Neke"+props.box_id)
       const response = await fetch(
         'https://api-d4me-stage.direct4.me/sandbox/v1/Access/openbox',
         {
@@ -74,7 +75,7 @@ function Box(props) {
   };
 
   const handleEdit = async () => {
-    try {
+   /* try {
       const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
         method: 'PUT',
         headers: {
@@ -94,6 +95,11 @@ function Box(props) {
     } catch (error) {
       console.error(error);
     }
+    */
+   
+    navigate('/editBox', { state: { box_id: props.box_id  }, state: { name:props.name} , state: { }  });
+
+
   };
 
   return (
