@@ -1,10 +1,11 @@
 
 import React from 'react';
 import Boxes from './Boxes';
-
+import { useNavigate } from 'react-router-dom';
 
 
 function Box(props) {
+  const navigate = useNavigate();
   const handleClick = async () => {
     try {
       const response = await fetch(
@@ -75,6 +76,7 @@ link.click();
   };
   
   const handleEdit = async () => {
+    
    /* try {
       const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
         method: 'PUT',
@@ -103,7 +105,7 @@ link.click();
     } catch (error) {
       console.error(error);
     }*/
-    history.push('/edit-box');
+    navigate("/editBox", { state: { box_id: props.box_id } });
   };
 
   console.log(props.box)
@@ -112,7 +114,7 @@ link.click();
 <div className="card mb-2">
   <div className="card-body">
     <h5 className="card-title">{props.box}</h5>
-    <button className="btn btn-primary float-end mr-2" onClick={() => handleEdit()}>
+    <button className="btn btn-primary float-end mr-2" onClick={()  => handleEdit()}>
       Edit Box
     </button>
     <button className="btn btn-danger float-end" onClick={() => handleRemove()}>

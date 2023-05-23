@@ -9,6 +9,8 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
 import AddBox from './components/AddBox';
+import EditBox from './components/EditBox';
+import EditBoxForm from './components/EditBox';
 
 
 function App() {
@@ -55,6 +57,7 @@ function App() {
             <Route path="/publish" element={<AddBox />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
+            <Route path="/editBox" element={<EditBoxForm />}></Route>
           </Routes>
         </div>
       </UserContext.Provider>
