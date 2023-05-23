@@ -97,7 +97,7 @@ function Box(props) {
     }
     */
    
-    navigate('/editBox', { state: { box_id: props.box_id  }  });
+    navigate('/editBox', { state: { box_id: props.box_id  }, state: { name:props.name} , state: { }  });
 
 
   };
