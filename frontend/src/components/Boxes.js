@@ -50,7 +50,7 @@ function Boxes() {
             <React.Fragment key={box._id}>
               <Box
                 name={box.name}
-                boxId={box._id}
+                boxId={box.boxId}
                 onRemove={() => handleRemove(box._id)}
               />
               <br />
