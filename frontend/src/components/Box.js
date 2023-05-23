@@ -75,7 +75,7 @@ link.click();
   };
   
   const handleEdit = async () => {
-    try {
+   /* try {
       const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
         method: 'PUT',
         headers: {
@@ -83,8 +83,8 @@ link.click();
         },
         body: JSON.stringify(
             {
-             name: ,
-             boxId: ,
+             name: "Neke",
+             boxId: 7,
 
             }
         ),
@@ -102,7 +102,8 @@ link.click();
       }
     } catch (error) {
       console.error(error);
-    }
+    }*/
+    history.push('/edit-box');
   };
 
   console.log(props.box)
