@@ -49,6 +49,25 @@ function Box(props) {
         link.download = 'sound.mp3';
         document.body.appendChild(link);
         link.click();
+
+        //dodam entry za log
+        /*const logRes = await fetch('http://localhost:3001/logs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user: 'TestUser', //TEMP DATA
+            opend: new Date(),
+            user_id: 'ToAdd',
+          }),
+        });
+        //error checking
+        if (logRes.ok) {
+          console.log('Log entry created successfuly');
+        }else{
+          console.log('Failed to create log entry');
+        }*/
       } else {
         console.log('Failed to open the box');
       }
