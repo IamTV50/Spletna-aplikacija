@@ -45,7 +45,8 @@ module.exports = {
         var log = new LogModel({
 			user : req.body.user,
 			opend : req.body.opend,
-            user_id: req.session.userId
+            user_id: req.session.userId,
+            box_id: req.body.box_id
         });
 
         log.save(function (err, log) {

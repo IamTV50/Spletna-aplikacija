@@ -7,6 +7,10 @@ var logSchema = new Schema({
     'user_id' : {
         type: Schema.Types.ObjectId,
         ref: 'user'
+   },
+   'box_id' : {
+        type: Schema.Types.ObjectId,
+        ref: 'boxes'
    }
 })
 
