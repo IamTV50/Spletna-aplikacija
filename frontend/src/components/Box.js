@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { UserContext } from '../userContext';
 
 function Box(props) {
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const user = Cookies.get('uporabnik');
+  const userContext = useContext(UserContext);
 
   const toggleDeleteModal = () => {
     setShowDeleteModal(!showDeleteModal);
@@ -53,27 +55,20 @@ function Box(props) {
         document.body.appendChild(link);
         link.click();
 
-        //dodam entry za log
-        const logRes = await fetch(`http://localhost:3001/log`, {
+        // Add log entry
+        const logRes = await fetch(`http://localhost:3001/log/`, {
           method: 'POST',
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            user: user, //SHOULD WORK MAYBE?
+            user: user,
             opend: new Date(),
             user_id: props.user_id,
             boxId: props.boxId
           }),
         });
-        console.log(props.boxId)
-        //error checking
-        if (logRes.ok) {
-          console.log('Log entry created successfuly');
-        }else{
-          console.log('Failed to create log entry');
-        }
       } else {
         console.log('Failed to open the box');
       }
@@ -100,35 +95,11 @@ function Box(props) {
   };
 
   const handleEdit = async () => {
-   /* try {
-      const response = await fetch(`http://localhost:3001/box/${props.box_id}/edit`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: 'Neke',
-          boxId: 7,
-        }),
-      });
-
-      if (response.status === 200) {
-        console.log('Box edited successfully');
-      } else {
-        console.log('Failed to edit the box');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    */
-   
-    navigate('/editBox', { state: { box_id: props.box_id }  });
-
-
+    navigate('/editBox', { state: { box_id: props.box_id, name: props.name, boxId: props.boxId } });
   };
 
   return (
-    <div className="card mb-2" style={{ width: "33.33%" }}>
+    <div className="card mb-2" style={{ width: "100%" }}>
       <div className="card-body">
         <div className="card-body d-flex flex-column align-items-center">
           <h5 className="card-title">{props.name}</h5>
@@ -161,7 +132,7 @@ function Box(props) {
                 Cancel
               </button>
               <button type="button" className="btn btn-danger" onClick={props.onRemove}>
-               Delete
+                Delete
               </button>
             </div>
           </div>
