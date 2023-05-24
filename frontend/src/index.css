@@ -26,3 +26,17 @@ code {
   text-align: center;
   padding: 20px;
 }
+
+.boxes-logs-container {
+  display: flex;
+}
+
+.boxes-container {
+  flex: 1;
+  margin-right: 20px; /* Adjust the margin as needed */
+}
+
+.logs-container {
+  flex: 1;
+  margin-left: 20px; /* Adjust the margin as needed */
+}
