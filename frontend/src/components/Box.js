@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
 function Box(props) {
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const user = Cookies.get('uporabnik');
 
   const toggleDeleteModal = () => {
     setShowDeleteModal(!showDeleteModal);
@@ -51,15 +54,17 @@ function Box(props) {
         link.click();
 
         //dodam entry za log
-        const logRes = await fetch(`http://localhost:3001/log/`, {
+        const logRes = await fetch(`http://localhost:3001/log`, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            user: 'TestUser', //TEMP DATA
+            user: user, //SHOULD WORK MAYBE?
             opend: new Date(),
-            user_id: 'ToAdd',
+            user_id: props.user_id,
+            box_id: props.box_id
           }),
         });
         //error checking
