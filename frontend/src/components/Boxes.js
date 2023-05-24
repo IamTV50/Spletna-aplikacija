@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Box from './Box';
 import Cookies from 'js-cookie';
 
+
 function Boxes() {
   const [boxes, setBoxes] = useState([]);
   const neke = Cookies.get('uporabnik');
