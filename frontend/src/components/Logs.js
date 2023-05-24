@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Log from './Log';
 import Cookies from 'js-cookie';
 

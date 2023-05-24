@@ -12,6 +12,7 @@ import Logout from "./components/Logout";
 import AddBox from './components/AddBox';
 import EditBox from './components/EditBox';
 import EditBoxForm from './components/EditBox';
+import Logs from './components/Logs';
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Header title="Urejanje Paketnikov"></Header>
           <Routes>
             <Route path="/" exact element={<Boxes />}></Route>
+            <Route path="/log" exact element={<Logs />}></Route>
             <Route path="/login" exact element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/publish" element={<AddBox />}></Route>

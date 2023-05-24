@@ -51,7 +51,7 @@ function Box(props) {
         link.click();
 
         //dodam entry za log
-        /*const logRes = await fetch('http://localhost:3001/logs', {
+        const logRes = await fetch(`http://localhost:3001/log/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ function Box(props) {
           console.log('Log entry created successfuly');
         }else{
           console.log('Failed to create log entry');
-        }*/
+        }
       } else {
         console.log('Failed to open the box');
       }
