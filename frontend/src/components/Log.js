@@ -1,21 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function Log() {
-
-    const Log = () => {
-        const [log, setLog] = React.useState([]);
-
-        try {
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    return (
-
-    );
+function Log({ user, opend }) {
+  return (
+    <div className="log-entry">
+      <p>User: {user}</p>
+      <p>Opened: {opend}</p>
+    </div>
+  );
 }
-
 
 export default Log;

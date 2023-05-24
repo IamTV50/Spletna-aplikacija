@@ -42,7 +42,7 @@ module.exports = {
     },
 
     create: function (req, res) {
-        var log = new BoxModel({
+        var log = new LogModel({
 			user : req.body.user,
 			opend : req.body.opend,
             user_id: req.session.userId

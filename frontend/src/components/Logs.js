@@ -9,7 +9,7 @@ function Logs() {
     useEffect(() => {
       const fetchLogs = async () => {
         try {
-          const response = await fetch('http://localhost:3001/logs');
+          const response = await fetch(`http://localhost:3001/log/my_logs/${user}`);
           if (response.ok) {
             const data = await response.json();
             setLogs(data);
@@ -30,11 +30,13 @@ function Logs() {
         {logs.length > 0 ? (
           <ul>
             {logs.map((log) => (
+              <React.Fragment key={log._id}>
               <Log
-                key={log._id}
                 user={log.user}
                 opend={log.opend}
               />
+              <br />
+              </React.Fragment>
             ))}
           </ul>
         ) : (
