@@ -64,9 +64,10 @@ function Box(props) {
             user: user, //SHOULD WORK MAYBE?
             opend: new Date(),
             user_id: props.user_id,
-            box_id: props.box_id
+            boxId: props.boxId
           }),
         });
+        console.log(props.boxId)
         //error checking
         if (logRes.ok) {
           console.log('Log entry created successfuly');

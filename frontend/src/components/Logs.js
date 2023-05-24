@@ -34,7 +34,7 @@ function Logs() {
               <Log
                 user={log.user}
                 opend={log.opend}
-                box_id={log.box_id}
+                boxId={log.boxId}
               />
               <br />
               </React.Fragment>

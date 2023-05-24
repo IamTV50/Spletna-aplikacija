@@ -46,7 +46,7 @@ module.exports = {
 			user : req.body.user,
 			opend : req.body.opend,
             user_id: req.session.userId,
-            box_id: req.body.box_id
+            boxId: req.body.boxId
         });
 
         log.save(function (err, log) {
