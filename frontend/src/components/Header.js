@@ -27,8 +27,8 @@ function Header(props) {
                 context.user && (
                   <ul className="navbar-nav mx-auto">
                     <li className="nav-item">
-                      <Link to="/" className="nav-link">
-                        Home
+                      <Link to="/home" className="nav-link">
+                        My boxes
                       </Link>
                     </li>
                     <li className="nav-item">

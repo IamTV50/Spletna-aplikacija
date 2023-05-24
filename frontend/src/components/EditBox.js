@@ -14,9 +14,6 @@ function EditBoxForm(props) {
     e.preventDefault();
 
     try {
-        console.log(location.state.boxId)
-        console.log(location.state.box_id)
-        console.log(props.name)
       const response = await fetch(`http://localhost:3001/box/${location.state.box_id}/edit`, {
         method: 'PUT',
         headers: {
