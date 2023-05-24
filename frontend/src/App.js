@@ -13,6 +13,7 @@ import AddBox from './components/AddBox';
 import EditBox from './components/EditBox';
 import EditBoxForm from './components/EditBox';
 import Logs from './components/Logs';
+import BoxesAndLogs from './components/BoxesAndLogs';
 
 
 function App() {
@@ -53,8 +54,7 @@ function App() {
         <div className="App">
           <Header title="Urejanje Paketnikov"></Header>
           <Routes>
-            <Route path="/" exact element={<Boxes />}></Route>
-            <Route path="/log" exact element={<Logs />}></Route>
+            <Route path="/" exact element={<BoxesAndLogs />}></Route>
             <Route path="/login" exact element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/publish" element={<AddBox />}></Route>
