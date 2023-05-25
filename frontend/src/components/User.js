@@ -1,33 +1,22 @@
 import React from 'react';
 
 function User({ username, email, onEdit, onDelete }) {
-  return (
-    <div className="table-responsive">
-    <table className="table">
-      <thead>
+    return (
         <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Actions</th>
+            <td className="text-center">{username}</td>
+            <td className="text-center">{email}</td>
+            <td>
+                <div class="text-center">
+                    <button className="btn btn-primary mr-2  justify-content-center align-items-center" onClick={onEdit}>
+                        Edit
+                    </button>
+                    <button className="btn btn-danger justify-content-center align-items-center" onClick={onDelete}>
+                        Delete
+                    </button>
+                </div>
+            </td>
         </tr>
-      </thead>
-      <tbody>
-        <tr className="table-row d-flex justify-content-center">
-          <td className="table-cell">{username}</td>
-          <td className="table-cell">{email}</td>
-          <td className="table-cell">
-            <button className="btn btn-primary mr-2" onClick={onEdit}>
-              Edit
-            </button>
-            <button className="btn btn-danger" onClick={onDelete}>
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>  
-  );
+    );
 }
 
 export default User;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Boxes from './Boxes';
 import Log from './Log';
 import Cookies from 'js-cookie';
 
@@ -24,25 +23,42 @@ function Logs() {
     fetchLogs();
   }, [user]);
 
-  const handleLogAdded = (newLog) => {
-    setLogs(prevLogs => [...prevLogs, newLog]);
-  };
+  const normalLogs = logs.filter((log) => !log.force);
+  const forceLogs = logs.filter((log) => log.force);
 
   return (
     <div>
       <h3>Logs:</h3>
-      {logs.length > 0 ? (
-        <ul>
-          {logs.map((log) => (
-            <React.Fragment key={log._id}>
-              <Log user={log.user} opend={log.opend} boxId={log.boxId} />
-              <br />
-            </React.Fragment>
-          ))}
-        </ul>
-      ) : (
-        <p>No logs found.</p>
+
+      {forceLogs.length > 0 && (
+        <>
+          <h4>Force Logs:</h4>
+          <ul>
+            {forceLogs.map((log) => (
+              <React.Fragment key={log._id}>
+                <Log force={log.force} opend={log.opend} boxId={log.boxId} />
+                <br />
+              </React.Fragment>
+            ))}
+          </ul>
+        </>
       )}
+
+      {normalLogs.length > 0 && (
+        <>
+          <h4>Normal Logs:</h4>
+          <ul>
+            {normalLogs.map((log) => (
+              <React.Fragment key={log._id}>
+                <Log user={log.user} opend={log.opend} boxId={log.boxId} />
+                <br />
+              </React.Fragment>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {logs.length === 0 && <p>No logs found.</p>}
     </div>
   );
 }

@@ -7,8 +7,6 @@ function EditBoxForm(props) {
     const location = useLocation();
   const [name, setName] = useState('');
   const [boxId, setBoxId] = useState('');
-  const [box_id, setBox_id] = useState('');
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
