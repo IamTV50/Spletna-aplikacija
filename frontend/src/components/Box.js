@@ -8,6 +8,7 @@ function Box(props) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const user = Cookies.get('uporabnik');
 
+
   const toggleDeleteModal = () => {
     setShowDeleteModal(!showDeleteModal);
   };
@@ -108,10 +109,10 @@ function Box(props) {
         <div className="card-body d-flex flex-column align-items-center">
           <h5 className="card-title">{props.name}</h5>
           <div className="d-flex flex-column">
-            <button className="btn btn-primary btn-sm mb-2" onClick={handleClick}>
+            <button className="btn btn-sm mb-2" style={{ backgroundColor: '#e5e5e5' }} onClick={handleClick}>
               Open Box
             </button>
-            <button className="btn btn-primary btn-sm" onClick={handleEdit}>
+            <button className="btn btn-sm" style={{ backgroundColor: '#e5e5e5' }}  onClick={handleEdit}>
               Edit Box
             </button>
           </div>
