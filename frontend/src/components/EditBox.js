@@ -29,7 +29,7 @@ function EditBoxForm(props) {
       if (response.status === 200) {
         // Editing successful
         console.log('Box edited successfully');
-        navigate("/")
+        navigate("/home")
         // Redirect to a success page or perform any additional actions
       } else {
         // Editing failed
@@ -45,11 +45,11 @@ function EditBoxForm(props) {
     <form onSubmit={handleSubmit}>
       <label>
         Name: 
-        <input type="text" placeholder={location.state.name}  value={name} onChange={(e) => setName(e.target.value)} />
+        <input type="text" value={location.state.name}  onChange={(e) => setName(e.target.value)} />
       </label>
       <label>
         Box ID:
-        <input type="text" placeholder={location.state.boxId} value={boxId} onChange={(e) => setBoxId(e.target.value)} />
+        <input type="text" value={location.state.boxId} onChange={(e) => setBoxId(e.target.value)} />
       </label>
       <button type="submit" className="btn btn-secondary" >Submit</button>
     </form>

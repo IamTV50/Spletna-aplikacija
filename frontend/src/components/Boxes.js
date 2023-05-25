@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Box from './Box';
 import Cookies from 'js-cookie';
 
-
-function Boxes() {
+function Boxes({ onLogAdded }) {
   const [boxes, setBoxes] = useState([]);
   const neke = Cookies.get('uporabnik');
 
@@ -54,6 +53,7 @@ function Boxes() {
                 boxId={box.boxId}
                 box_id={box._id}
                 onRemove={() => handleRemove(box._id)}
+                onLogAdded={onLogAdded} // Pass the onLogAdded function to the Box component
               />
               <br />
             </React.Fragment>

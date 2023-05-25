@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Boxes from './Boxes';
 import Logs from './Logs';
+import Cookies from 'js-cookie';
 
 function BoxesAndLogs() {
   const [logs, setLogs] = useState([]);
+  const user = Cookies.get('uporabnik');
 
   useEffect(() => {
     fetchLogs(); // Fetch logs initially
@@ -11,7 +13,7 @@ function BoxesAndLogs() {
 
   const fetchLogs = async () => {
     try {
-      const response = await fetch('http://localhost:3001/log/my_logs');
+      const response = await fetch(`http://localhost:3001/log/my_logs/${user}`);
       if (response.ok) {
         const data = await response.json();
         setLogs(data);
@@ -23,8 +25,8 @@ function BoxesAndLogs() {
     }
   };
 
-  const handleLogAdded = () => {
-    fetchLogs(); // Refresh logs after a new log is added
+  const handleLogAdded = (newLog) => {
+    setLogs([...logs, newLog]); // Add the new log to the logs state
   };
 
   return (

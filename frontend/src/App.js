@@ -15,7 +15,9 @@ import EditBoxForm from './components/EditBox';
 import Logs from './components/Logs';
 import BoxesAndLogs from './components/BoxesAndLogs';
 import LandingPage from './components/Landing';
-
+import Admin from './components/Admin';
+import User from './components/User';
+import EditUser from './components/editUser';
 
 function App() {
   /**
@@ -56,6 +58,7 @@ function App() {
           <Header title="Pametni Paketnik"></Header>
           <Routes>
             <Route path="/" exact element={<LandingPage />}></Route>
+            <Route path="/admin" exact element={<Admin />}></Route>
             <Route path="/home" exact element={<BoxesAndLogs />}></Route>
             <Route path="/login" exact element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
@@ -63,6 +66,7 @@ function App() {
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
             <Route path="/editBox" element={<EditBoxForm />}></Route>
+            <Route path="/editUser" element={<EditUser />}></Route>
           </Routes>
           <Footer></Footer>
         </div>

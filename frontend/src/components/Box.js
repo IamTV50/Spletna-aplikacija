@@ -64,11 +64,16 @@ function Box(props) {
           },
           body: JSON.stringify({
             user: user,
-            opend: new Date(),
+            opend: new Date().toLocaleString('en-US', { timeZone: 'Europe/Zagreb' }),
             user_id: props.user_id,
             boxId: props.boxId
           }),
         });
+
+        if (logRes.ok) {
+          const newLog = await logRes.json();
+          props.onLogAdded(newLog); // Call the onLogAdded function with the new log data
+        }
       } else {
         console.log('Failed to open the box');
       }
