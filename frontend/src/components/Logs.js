@@ -4,12 +4,14 @@ import Cookies from 'js-cookie';
 
 function Logs() {
   const [logs, setLogs] = useState([]);
-  const user = Cookies.get('uporabnik');
+  const [user, setUser] = useState(Cookies.get('uporabnik'));
 
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/log/my_logs/${user}`);
+        const response = await fetch(`http://localhost:3001/log/my_logs/${user}`, {
+          method: 'GET',
+        });
         if (response.ok) {
           const data = await response.json();
           setLogs(data);
@@ -19,7 +21,7 @@ function Logs() {
       } catch (error) {
         console.error(error);
       }
-    };
+    };    
     fetchLogs();
   }, [user]);
 

@@ -4,12 +4,12 @@ import Cookies from 'js-cookie';
 
 function Boxes({ onLogAdded }) {
   const [boxes, setBoxes] = useState([]);
-  const neke = Cookies.get('uporabnik');
+  const user = Cookies.get('uporabnik');
 
   useEffect(() => {
     const getBoxes = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/box/my_boxes/${neke}`);
+        const response = await fetch(`http://localhost:3001/box/my_boxes/${user}`);
         if (response.ok) {
           const data = await response.json();
           setBoxes(data);
@@ -22,7 +22,7 @@ function Boxes({ onLogAdded }) {
     };
 
     getBoxes();
-  }, [neke]);
+  }, []);
 
   const handleRemove = async (boxId) => {
     try {

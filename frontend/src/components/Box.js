@@ -55,6 +55,9 @@ function Box(props) {
         document.body.appendChild(link);
         link.click();
 
+        const opend = new Date();
+        opend.setHours(opend.getHours()+2);
+
         // Add log entry
         const logRes = await fetch(`http://localhost:3001/log/`, {
           method: 'POST',
@@ -64,7 +67,7 @@ function Box(props) {
           },
           body: JSON.stringify({
             user: user,
-            opend: new Date().toLocaleString('en-US', { timeZone: 'Europe/Zagreb' }),
+            opend: opend.toLocaleString('en-US', { timeZone: 'Europe/Zagreb' }),
             user_id: props.user_id,
             boxId: props.boxId
           }),
