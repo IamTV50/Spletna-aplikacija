@@ -20,7 +20,7 @@ function EditUser() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3001/user/${location.state.userId}/edit`, {
+      const response = await fetch(`http://localhost:3001/users/${location.state.userId}/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -6,7 +6,8 @@ var logSchema = new Schema({
     'opend' : Date,
     'user_id' : {
           type: Schema.Types.ObjectId,
-          ref: 'user'
+          ref: 'user',
+          requried: false
    },
    'boxId' : Number,
    'force' : {

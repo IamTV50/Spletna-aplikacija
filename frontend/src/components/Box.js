@@ -7,7 +7,6 @@ function Box(props) {
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const user = Cookies.get('uporabnik');
-  const userContext = useContext(UserContext);
 
   const toggleDeleteModal = () => {
     setShowDeleteModal(!showDeleteModal);

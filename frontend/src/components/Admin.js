@@ -9,7 +9,7 @@ function Admin() {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3001/user/lista', {
+        const response = await fetch('http://localhost:3001/users/lista', {
           method: 'GET',
         });
 
@@ -45,7 +45,7 @@ function Admin() {
 
   const handleDelete = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:3001/user/${userId}`, {
+      const response = await fetch(`http://localhost:3001/users/${userId}`, {
         method: 'DELETE',
       });
 
@@ -64,17 +64,26 @@ function Admin() {
     <div>
       <h3>Users:</h3>
       {users.length > 0 ? (
-        <ul>
-          {users.map((user) => (
-            <User
-              key={user._id}
-              username={user.username}
-              email={user.email}
-              onEdit={() => handleEdit(user._id, user.username, user.email)}
-              onDelete={() => handleDelete(user._id)}
-            />
-          ))}
-        </ul>
+        <table className="table">
+          <thead>
+            <tr>
+              <th className="text-center">Username</th>
+              <th className="text-center">Email</th>
+              <th className="text-center">Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <User
+                key={user._id}
+                username={user.username}
+                email={user.email}
+                onEdit={() => handleEdit(user._id, user.username, user.email)}
+                onDelete={() => handleDelete(user._id)}
+              />
+            ))}
+          </tbody>
+        </table>
       ) : (
         <p>No users found.</p>
       )}
