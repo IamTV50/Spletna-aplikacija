@@ -16,7 +16,6 @@ function LandingPage() {
               <li>Registracija in prijava uporabnikov</li>
               <li>Dodajanje, urejanje in brisanje pametnih paketnikov</li>
               <li>Ogled seznama vseh paketnikov na uporabnikovem računu</li>
-              <li>Iskanje paketnikov po različnih kriterijih, kot so ime, naslov in status dostave</li>
             </ul>
             <h2>Tehnologije:</h2>
             <ul>
