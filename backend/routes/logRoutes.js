@@ -17,7 +17,7 @@ router.get('/',logController.list);
 router.get('/showBox/:id', logController.show);
 router.get('/my_logs/:username', logController.myLogs);
 
-router.post('/', requiresLogin,  logController.create);
+router.post('/',  logController.create);
 
 router.put('/:id', logController.update);
 

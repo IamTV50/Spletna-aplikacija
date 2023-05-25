@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Boxes from './Boxes';
 import Log from './Log';
 import Cookies from 'js-cookie';
 
@@ -22,7 +23,10 @@ function Logs() {
     };
     fetchLogs();
   }, [user]);
-  
+
+  const handleLogAdded = (newLog) => {
+    setLogs(prevLogs => [...prevLogs, newLog]);
+  };
 
   return (
     <div>

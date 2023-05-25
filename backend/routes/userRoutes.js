@@ -3,7 +3,7 @@ var router = express.Router();
 var userController = require('../controllers/userController.js');
 
 
-router.get('/', userController.list);
+router.get('/lista', userController.list);
 //router.get('/register', userController.showRegister);
 //router.get('/login', userController.showLogin);
 router.get('/profile', userController.profile);
@@ -13,7 +13,7 @@ router.get('/:id', userController.show);
 router.post('/', userController.create);
 router.post('/login', userController.login);
 
-router.put('/:id', userController.update);
+router.put('/:id/edit', userController.update);
 
 router.delete('/:id', userController.remove);
 

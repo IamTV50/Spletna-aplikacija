@@ -18,7 +18,7 @@ module.exports = {
                     error: err
                 });
             }
-
+            
             return res.json(users);
         });
     },
@@ -94,7 +94,7 @@ module.exports = {
             user.username = req.body.username ? req.body.username : user.username;
 			user.password = req.body.password ? req.body.password : user.password;
 			user.email = req.body.email ? req.body.email : user.email;
-            user.admin = req.body.admin ? req.body.admin : user.admin
+            user.admin = req.body.admin ? req.body.admin : user.admin;
 			
             user.save(function (err, user) {
                 if (err) {
