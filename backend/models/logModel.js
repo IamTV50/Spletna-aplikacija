@@ -8,7 +8,11 @@ var logSchema = new Schema({
           type: Schema.Types.ObjectId,
           ref: 'user'
    },
-   'boxId' : Number
+   'boxId' : Number,
+   'force' : {
+    type: Boolean,
+    default: false
+    }
 })
 
 module.exports = mongoose.model('log',logSchema);
