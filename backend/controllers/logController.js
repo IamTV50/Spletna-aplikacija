@@ -46,7 +46,8 @@ module.exports = {
 			user : req.body.user,
 			opend : req.body.opend,
             user_id: req.session.userId,
-            boxId: req.body.boxId
+            boxId: req.body.boxId,
+            force : req.body.force
         });
 
         log.save(function (err, log) {
@@ -80,6 +81,7 @@ module.exports = {
 
             log.user = req.body.user ? req.body.user : log.name;
             log.date = req.body.date ? req.body.date : log.date;
+            log.force =req.body.force ? req.body.force : log.force;
 
             
             log.save(function (err, log) {
