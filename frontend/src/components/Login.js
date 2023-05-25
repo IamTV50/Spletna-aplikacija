@@ -63,7 +63,7 @@ function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <button type="submit" className="btn btn-primary">Log in</button>
+                <button type="submit" className="btn" style={{ backgroundColor: '#e5e5e5' }} >Log in</button>
                 {error && <div className="alert alert-danger mt-3">{error}</div>}
               </form>
             </div>

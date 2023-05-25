@@ -45,7 +45,7 @@ function Register() {
           <label htmlFor="password" className="form-label">Password</label>
           <input type="password" className="form-control" id="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
-        <button type="submit" className="btn btn-primary">Register</button>
+        <button type="submit" className="btn" style={{ backgroundColor: '#e5e5e5' }} >Register</button>
         {error && <div className="text-danger">{error}</div>}
       </form>
     </div>

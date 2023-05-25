@@ -38,7 +38,7 @@ function AddBox(props) {
           <label htmlFor="boxId" className="form-label">Box ID</label>
           <input type="text" className="form-control" id="boxId" placeholder="Enter box ID" value={boxId} onChange={(e) => setBoxId(e.target.value)} />
         </div>
-        <button type="submit" className="btn btn-primary">Add Box</button>
+        <button type="submit" className="btn" style={{ backgroundColor: '#e5e5e5' }} >Add Box</button>
       </form>
     </div>
   )

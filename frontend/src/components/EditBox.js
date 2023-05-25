@@ -40,17 +40,21 @@ function EditBoxForm(props) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name: 
-        <input type="text" value={location.state.name}  onChange={(e) => setName(e.target.value)} />
-      </label>
-      <label>
-        Box ID:
-        <input type="text" value={location.state.boxId} onChange={(e) => setBoxId(e.target.value)} />
-      </label>
-      <button type="submit" className="btn btn-secondary" >Submit</button>
+    <div className="d-flex justify-content-center">
+    <form onSubmit={handleSubmit} className="col-md-6">
+    <h1>Edit Box:</h1>
+      <div className="form-group">
+        <label htmlFor="name">Name:</label>
+        <input type="text" className="form-control" id="name" value={location.state.name} onChange={(e) => setName(e.target.value)} />
+      </div>
+      <div className="form-group">
+        <label htmlFor="boxId">Box ID:</label>
+        <input type="text" className="form-control" id="boxId" value={location.state.boxId} onChange={(e) => setBoxId(e.target.value)} />
+      </div>
+      <button type="submit" className="btn btn-secondary">Submit</button>
     </form>
+  </div>
+  
   );
 }
 
