@@ -51,7 +51,7 @@ function EditBoxForm(props) {
         <label htmlFor="boxId">Box ID:</label>
         <input type="text" className="form-control" id="boxId" value={location.state.boxId} onChange={(e) => setBoxId(e.target.value)} />
       </div>
-      <button type="submit" className="btn btn-secondary">Submit</button>
+      <button type="submit" className="button-28">Submit</button>
     </form>
   </div>
   

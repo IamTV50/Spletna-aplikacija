@@ -18,6 +18,7 @@ import LandingPage from './components/Landing';
 import Admin from './components/Admin';
 import User from './components/User';
 import EditUser from './components/editUser';
+import Info from './components/Info';
 
 function App() {
   /**
@@ -67,6 +68,7 @@ function App() {
             <Route path="/logout" element={<Logout />}></Route>
             <Route path="/editBox" element={<EditBoxForm />}></Route>
             <Route path="/editUser" element={<EditUser />}></Route>
+            <Route path="/info" element={<Info />}></Route>
           </Routes>
           <Footer></Footer>
         </div>

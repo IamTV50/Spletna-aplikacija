@@ -7,7 +7,7 @@ function User({ username, email, onEdit, onDelete }) {
             <td className="text-center">{email}</td>
             <td>
                 <div class="text-center">
-                    <button className="btn mr-2  justify-content-center align-items-center"style={{ backgroundColor: '#e5e5e5' }}  onClick={onEdit}>
+                    <button className="btn mr-2  justify-content-center align-items-center button-80"  onClick={onEdit}>
                         Edit
                     </button>
                     <button className="btn btn-danger justify-content-center align-items-center" onClick={onDelete}>

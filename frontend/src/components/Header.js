@@ -78,6 +78,11 @@ function Header(props) {
                         Register
                       </Link>
                     </li>
+                    <li className="nav-item">
+                      <Link to="/info" className="nav-link">
+                        Info
+                      </Link>
+                    </li>
                   </>
                 )
               }

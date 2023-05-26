@@ -112,10 +112,10 @@ function Box(props) {
         <div className="card-body d-flex flex-column align-items-center">
           <h5 className="card-title">{props.name}</h5>
           <div className="d-flex flex-column">
-            <button className="btn btn-sm mb-2" style={{ backgroundColor: '#e5e5e5' }} onClick={handleClick}>
+            <button className="button-28" onClick={handleClick}>
               Open Box
             </button>
-            <button className="btn btn-sm" style={{ backgroundColor: '#e5e5e5' }}  onClick={handleEdit}>
+            <button className="button-28" onClick={handleEdit}>
               Edit Box
             </button>
           </div>
