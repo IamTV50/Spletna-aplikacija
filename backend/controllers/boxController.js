@@ -114,10 +114,11 @@ module.exports = {
       
           box.name = req.body.name ? req.body.name : box.name;
           box.boxId = req.body.boxId ? req.body.boxId : box.boxId;
-      
+
           // Update user_id array if user IDs are provided in the request body
-          if (req.body.userIds && Array.isArray(req.body.userIds)) {
-            box.user_id.push(...req.body.userIds);
+          if (req.body.user_id) {
+            console.log("tu");
+            update.$push.user_id = req.body.user_id;
           }
       
           box.save(function (err, box) {
@@ -130,6 +131,44 @@ module.exports = {
       
             return res.json(box);
           });
+        });
+      },
+      
+      AddUser: function (req, res) {
+        var id = req.params.id;
+      
+        const update = {
+          $set: {},
+          $push: {},
+        };
+      
+        if (req.body.name) {
+          update.$set.name = req.body.name;
+        }
+      
+        if (req.body.boxId) {
+          update.$set.boxId = req.body.boxId;
+        }
+      
+        if (req.body.user_id) {
+          update.$push.user_id = req.body.user_id;
+        }
+      
+        BoxModel.findOneAndUpdate({ _id: id }, update, { new: true }, function (err, box) {
+          if (err) {
+            return res.status(500).json({
+              message: 'Error when updating box.',
+              error: err,
+            });
+          }
+      
+          if (!box) {
+            return res.status(404).json({
+              message: 'No such box',
+            });
+          }
+      
+          return res.json(box);
         });
       },
       

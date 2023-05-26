@@ -5,21 +5,24 @@ function AddUser() {
   const navigate = useNavigate();
   const location = useLocation();
   const [username, setUsername] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const getUsers = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/${username}`, {
+      const response = await fetch(`http://localhost:3001/users/${username}/user`, {
         method: 'GET',
       });
 
       if (response.ok) {
         const data = await response.json();
         // Process the retrieved users data
+        return data._id; // Return the retrieved _id
       } else {
-        console.log('Failed to fetch users');
+        const errorData = await response.json();
+        throw new Error(errorData.message); // Throw an error with the error message
       }
     } catch (error) {
-      console.error(error);
+      setErrorMessage(error.message); // Set the error message in the state
     }
   };
 
@@ -28,38 +31,54 @@ function AddUser() {
 
     try {
       // Call the getUsers function passing the username
-      await getUsers();
+      const user_id = await getUsers();
 
-      // Add the user to the box
-      await fetch(`http://localhost:3001/box/${location.state.box_id}/edit`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: location.state.name,
-          boxId: location.state.boxId,
-          user_id: userId,
-        }),
-      });
+      if (user_id) {
+        // Add the user to the box
+        await fetch(`http://localhost:3001/box/${location.state.box_id}/add`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: location.state.name,
+            boxId: location.state.boxId,
+            user_id: user_id, // Use the retrieved _id as user_id
+          }),
+        });
 
-      // Navigate to a success page or perform any additional actions
-      navigate('/home');
+        // Navigate to a success page or perform any additional actions
+        navigate('/home');
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div>
-      <h2>Add User</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
-        <button type="submit">Add User</button>
-      </form>
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <h2 className="text-center">Add a User by typing in his Username:</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Username:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="text-center">
+              <button type="submit" className="btn button-28">
+                Add User
+              </button>
+              {errorMessage && <p className="text-danger">{errorMessage}</p>}
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
