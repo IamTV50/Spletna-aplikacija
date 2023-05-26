@@ -106,47 +106,55 @@ function Box(props) {
     navigate('/editBox', { state: { box_id: props.box_id, name: props.name, boxId: props.boxId } });
   };
 
+  const handleAddUser = () => {
+    navigate('/AddUser', { state: { box_id: props.box_id, name: props.name, boxId: props.boxId } });
+  };
+
   return (
-    <div className="card mb-2" style={{ width: "100%" }}>
-      <div className="card-body">
-        <div className="card-body d-flex flex-column align-items-center">
-          <h5 className="card-title">{props.name}</h5>
-          <div className="d-flex flex-column">
-            <button className="btn btn-sm mb-2" style={{ backgroundColor: '#e5e5e5' }} onClick={handleClick}>
-              Open Box
-            </button>
-            <button className="btn btn-sm" style={{ backgroundColor: '#e5e5e5' }}  onClick={handleEdit}>
-              Edit Box
-            </button>
-          </div>
-        </div>
-        <div className="close-container">
-          <button type="button" className="close" aria-label="Close" onClick={toggleDeleteModal}>
-            <span aria-hidden="true">&times;</span>
+    <div className="card mb-2" style={{ width: '100%' }}>
+    <div className="card-body">
+      <div className="card-body d-flex flex-column align-items-center">
+        <h5 className="card-title">{props.name}</h5>
+        <div className="d-flex flex-column">
+          <button className="button-28" onClick={handleClick}>
+            Open Box
+          </button>
+          <button className="button-28" onClick={handleEdit}>
+            Edit Box
+          </button>
+          <button className="button-28" onClick={handleAddUser}>
+            Add User
           </button>
         </div>
       </div>
-      <div className={showDeleteModal ? 'modal show d-block' : 'modal'} tabIndex="-1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Delete Box</h5>
-            </div>
-            <div className="modal-body">
-              <p>Are you sure you want to delete this box?</p>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={toggleDeleteModal}>
-                Cancel
-              </button>
-              <button type="button" className="btn btn-danger" onClick={props.onRemove}>
-                Delete
-              </button>
-            </div>
+      <div className="close-container">
+        <button type="button" className="close" aria-label="Close" onClick={toggleDeleteModal}>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    {/* Delete Modal */}
+    <div className={showDeleteModal ? 'modal show d-block' : 'modal'} tabIndex="-1">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Delete Box</h5>
+          </div>
+          <div className="modal-body">
+            <p>Are you sure you want to delete this box?</p>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" onClick={toggleDeleteModal}>
+              Cancel
+            </button>
+            <button type="button" className="btn btn-danger" onClick={props.onRemove}>
+              Delete
+            </button>
           </div>
         </div>
       </div>
     </div>
+  </div>
   );
 }
 

@@ -5,8 +5,8 @@ import { useLocation } from 'react-router-dom';
 function EditBoxForm(props) {
     const navigate = useNavigate();
     const location = useLocation();
-  const [name, setName] = useState('');
-  const [boxId, setBoxId] = useState('');
+  const [name, setName] = useState(location.state.name);
+  const [boxId, setBoxId] = useState(location.state.boxId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,13 +45,13 @@ function EditBoxForm(props) {
     <h1>Edit Box:</h1>
       <div className="form-group">
         <label htmlFor="name">Name:</label>
-        <input type="text" className="form-control" id="name" value={location.state.name} onChange={(e) => setName(e.target.value)} />
+        <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="form-group">
         <label htmlFor="boxId">Box ID:</label>
-        <input type="text" className="form-control" id="boxId" value={location.state.boxId} onChange={(e) => setBoxId(e.target.value)} />
+        <input type="text" className="form-control" id="boxId" value={boxId} onChange={(e) => setBoxId(e.target.value)} />
       </div>
-      <button type="submit" className="btn btn-secondary">Submit</button>
+      <button type="submit" className="button-28">Submit</button>
     </form>
   </div>
   

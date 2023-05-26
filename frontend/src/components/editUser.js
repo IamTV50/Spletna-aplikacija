@@ -70,7 +70,7 @@ function EditUser() {
             onChange={handleEmailChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary">Update User</button>
+        <button type="submit" className="button-28">Update User</button>
       </form>
     </div>
   );
