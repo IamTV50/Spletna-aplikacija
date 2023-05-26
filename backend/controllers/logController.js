@@ -1,6 +1,8 @@
 const logModel = require('../models/logModel.js');
 var LogModel = require('../models/logModel.js');
 const userModel=require('../models/userModel.js')
+const Cookies = require('js-cookie');
+
 
 const { ObjectId } = require('mongodb');
 
@@ -45,7 +47,7 @@ module.exports = {
         var log = new LogModel({
 			user : req.body.user,
 			opend : req.body.opend,
-            user_id: req.session.userId,
+            user_id : req.session.userId,
             boxId: req.body.boxId,
             force : req.body.force
         });
@@ -114,9 +116,7 @@ module.exports = {
 
     myLogs: function (req, res) {
         var username = req.params.username
-        //var username = Cookies.get("uporabnik"); // Retrieve the username from the cookie
-       // var neke = new ObjectId(username);
-        console.log(username)
+        
         // Find the user by username and retrieve the user ID
         userModel.findOne({ "username": username }, function (err, user) {
             console.log(err)
@@ -132,13 +132,8 @@ module.exports = {
             });
           }
       
-          
-        var user_id = user._id;
-        var neke = new ObjectId(user_id);
-        
-      
           // Use the retrieved user_id in your query
-          LogModel.find({ "user_id": neke }, function (err, logs) {
+          LogModel.find({ "user": username }, function (err, logs) {
             if (err) {
               return res.status(500).json({
                 message: 'Error when getting boxes.',
