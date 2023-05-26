@@ -8,7 +8,7 @@ router.get('/lista', userController.list);
 //router.get('/login', userController.showLogin);
 router.get('/profile', userController.profile);
 router.get('/logout', userController.logout);
-router.get('/:username', userController.show);
+router.get('/:username/user', userController.show);
 
 router.post('/', userController.create);
 router.post('/login', userController.login);

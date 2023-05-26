@@ -112,27 +112,32 @@ function Box(props) {
 
   return (
     <div className="card mb-2" style={{ width: '100%' }}>
-    <div className="card-body">
-      <div className="card-body d-flex flex-column align-items-center">
-        <h5 className="card-title">{props.name}</h5>
-        <div className="d-flex flex-column">
-          <button className="button-28" onClick={handleClick}>
-            Open Box
-          </button>
-          <button className="button-28" onClick={handleEdit}>
-            Edit Box
-          </button>
-          <button className="button-28" onClick={handleAddUser}>
-            Add User
-          </button>
-        </div>
-      </div>
-      <div className="close-container">
-        <button type="button" className="close" aria-label="Close" onClick={toggleDeleteModal}>
-          <span aria-hidden="true">&times;</span>
+  <div className="card-body">
+    <div className="card-body d-flex flex-column align-items-center">
+      <h5 className="card-title">{props.name}</h5>
+      <div className="button-container d-flex">
+        <button className="button-28" onClick={handleClick}>
+          Open Box
+        </button>
+        <button className="button-28" onClick={handleEdit}>
+          Edit Box
+        </button>
+        <button className="button-28" onClick={handleAddUser}>
+          Add User
         </button>
       </div>
     </div>
+    <div className="close-container">
+      <button
+        type="button"
+        className="close"
+        aria-label="Close"
+        onClick={toggleDeleteModal}
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
     {/* Delete Modal */}
     <div className={showDeleteModal ? 'modal show d-block' : 'modal'} tabIndex="-1">
       <div className="modal-dialog">
