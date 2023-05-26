@@ -27,9 +27,9 @@ module.exports = {
      * userController.show()
      */
     show: function (req, res) {
-        var id = req.params.id;
+        var user = req.params.username;
 
-        UserModel.findOne({_id: id}, function (err, user) {
+        UserModel.findOne({username: user}, function (err, user) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting user.',

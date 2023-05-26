@@ -60,13 +60,9 @@ module.exports = {
         });
     },
     myBoxes: function (req, res) {
-        var username = req.params.username
-        //var username = Cookies.get("uporabnik"); // Retrieve the username from the cookie
-       // var neke = new ObjectId(username);
-        console.log(username)
-        // Find the user by username and retrieve the user ID
+        var username = req.params.username;
+
         userModel.findOne({ "username": username }, function (err, user) {
-            console.log(err)
           if (err) {
             return res.status(500).json({
               message: 'Error when finding user.',
@@ -78,63 +74,66 @@ module.exports = {
               message: 'User not found.'
             });
           }
-      
-          
-        var user_id = user._id;
-        var neke = new ObjectId(user_id);
         
-      
-          // Use the retrieved user_id in your query
-          boxModel.find({ "user_id": neke }, function (err, boxes) {
+          var user_id = user._id;
+        
+          boxModel.find({ "user_id": { $in: [user_id] } }, function (err, boxes) {
             if (err) {
               return res.status(500).json({
                 message: 'Error when getting boxes.',
                 error: err
               });
             }
-      
+        
             obj = {};
             logged_in = !(req.session && typeof req.session.userId === 'undefined');
             obj.logged_in = logged_in;
             obj.boxes = boxes;
-      
+        
             return res.json(boxes);
+          });
+        });
+    },    
+      
+    update: function (req, res) {
+        var id = req.params.id;
+      
+        BoxModel.findOne({ _id: id }, function (err, box) {
+          if (err) {
+            return res.status(500).json({
+              message: 'Error when getting box',
+              error: err
+            });
+          }
+      
+          if (!box) {
+            return res.status(404).json({
+              message: 'No such box'
+            });
+          }
+      
+          box.name = req.body.name ? req.body.name : box.name;
+          box.boxId = req.body.boxId ? req.body.boxId : box.boxId;
+      
+          // Update user_id array if user IDs are provided in the request body
+          if (req.body.userIds && Array.isArray(req.body.userIds)) {
+            box.user_id.push(...req.body.userIds);
+          }
+      
+          box.save(function (err, box) {
+            if (err) {
+              return res.status(500).json({
+                message: 'Error when updating box.',
+                error: err
+              });
+            }
+      
+            return res.json(box);
           });
         });
       },
       
-    update: function (req, res) {
-        var id = req.params.id;
-
-        BoxModel.findOne({_id: id}, function (err, box) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting box',
-                    error: err
-                });
-            }
-
-            if (!box) {
-                return res.status(404).json({
-                    message: 'No such box'
-                });
-            }
-
-            box.name = req.body.name ? req.body.name : box.name;
-			box.boxId = req.body.boxId ? req.body.boxId : box.boxId;
-			
-            box.save(function (err, box) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Error when updating box.',
-                        error: err
-                    });
-                }
-
-                return res.json(box);
-            });
-        });
-    },
+      
 
     remove: function (req, res) {
         var id = req.params.id;

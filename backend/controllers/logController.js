@@ -119,7 +119,6 @@ module.exports = {
         
         // Find the user by username and retrieve the user ID
         userModel.findOne({ "username": username }, function (err, user) {
-            console.log(err)
           if (err) {
             return res.status(500).json({
               message: 'Error when finding user.',

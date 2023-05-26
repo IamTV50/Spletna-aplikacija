@@ -19,6 +19,7 @@ import Admin from './components/Admin';
 import User from './components/User';
 import EditUser from './components/editUser';
 import Info from './components/Info';
+import AddUser from './components/AddUser';
 
 function App() {
   /**
@@ -69,6 +70,7 @@ function App() {
             <Route path="/editBox" element={<EditBoxForm />}></Route>
             <Route path="/editUser" element={<EditUser />}></Route>
             <Route path="/info" element={<Info />}></Route>
+            <Route path="/AddUser" element={<AddUser />}></Route>
           </Routes>
           <Footer></Footer>
         </div>
