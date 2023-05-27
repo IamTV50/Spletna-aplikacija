@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 function Header(props) {
   return (
-    <header className="navbar navbar-expand-lg navbar-light bg-light">
+    <header className="navbar navbar-expand-lg navbar-light" style={{ background: "#303036" }}>
       <div className="container" >
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand" style={{ color: 'white' }}>
           {props.title}
         </Link>
         <button
@@ -25,24 +25,24 @@ function Header(props) {
               context.user && (
                 <ul className="navbar-nav mx-auto">
                   <li className="nav-item">
-                    <Link to="/home" className="nav-link">
+                    <Link to="/home" className="nav-link" style={{ color: 'white' }}>
                       My boxes
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/publish" className="nav-link">
+                    <Link to="/publish" className="nav-link" style={{ color: 'white' }}>
                       Add Box
                     </Link>
                   </li>
-                  {context.user.admin && ( 
+                  {context.user.admin && (
                     <li className="nav-item">
-                      <Link to="/admin" className="nav-link"> 
+                      <Link to="/admin" className="nav-link" style={{ color: 'white' }}>
                         Admin
                       </Link>
                     </li>
                   )}
                   <li className="nav-item">
-                    <Link to="/profile" className="nav-link">
+                    <Link to="/profile" className="nav-link" style={{ color: 'white' }}>
                       Profile
                     </Link>
                   </li>
@@ -56,12 +56,12 @@ function Header(props) {
                 context.user ? (
                   <>
                     <li className="nav-item">
-                      <span className="nav-link">
+                      <span className="nav-link" style={{ color: 'white' }}>
                         Logged in as {context.user.username}
                       </span>
                     </li>
                     <li className="nav-item">
-                      <Link to="/logout" className="nav-link">
+                      <Link to="/logout" className="nav-link" style={{ color: 'white' }}>
                         Logout
                       </Link>
                     </li>
@@ -69,17 +69,17 @@ function Header(props) {
                 ) : (
                   <>
                     <li className="nav-item">
-                      <Link to="/login" className="nav-link">
+                      <Link to="/login" className="nav-link" style={{ color: 'white' }}>
                         Login
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/register" className="nav-link">
+                      <Link to="/register" className="nav-link" style={{ color: 'white' }}>
                         Register
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/info" className="nav-link">
+                      <Link to="/info" className="nav-link" style={{ color: 'white' }}>
                         Info
                       </Link>
                     </li>
