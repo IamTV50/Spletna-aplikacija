@@ -56,28 +56,26 @@ function AddUser() {
   };
 
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <h2 className="text-center">Add a User by typing in his Username:</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Username:</label>
-              <input
-                type="text"
-                className="form-control"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="text-center">
-              <button type="submit" className="btn button-28">
-                Add User
-              </button>
-              {errorMessage && <p className="text-danger">{errorMessage}</p>}
-            </div>
-          </form>
-        </div>
+    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh', marginTop: '-100px' }}>
+      <div className="col-md-6">
+        <h2 className="text-center mb-4">Add a User by Typing in Their Username:</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group mb-4">
+            <label>Username:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="text-center">
+            <button type="submit" className="btn button-28 mb-3">
+              Add User
+            </button>
+            {errorMessage && <p className="text-danger">{errorMessage}</p>}
+          </div>
+        </form>
       </div>
     </div>
   );

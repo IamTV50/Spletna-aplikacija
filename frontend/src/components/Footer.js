@@ -4,7 +4,7 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-light py-3 fixed-bottom">
+    <footer className="py-3 fixed-bottom" style={{background:"#303036", color:'white'}}>
       <div className="container d-flex justify-content-between align-items-center">
         <div className="text-left">
           &copy; {currentYear}
