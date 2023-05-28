@@ -24,7 +24,7 @@ def NewUSerModel(id):
     data=np.array(data)
     images = []
     g=0
-    for file in glob.glob("..."):  
+    for file in glob.glob("user_pictures/*"):  
         if g<30:
             img=cv2.imread(file)
             img = cv2.resize(img, (100, 100))
