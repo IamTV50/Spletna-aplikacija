@@ -177,5 +177,40 @@ module.exports = {
                 }
             });
         }
-    }
+    },
+    register: function(req, res) {
+        var id = req.body.username;  // Assuming the username is used as the ID for the user model
+    
+        // Your existing code for creating a new user
+        var user = new UserModel({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+        });
+    
+        user.save(function(err, user) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when creating user',
+                    error: err
+                });
+            }
+    
+            // Call the NewUserModel function to create and train the user model
+            var modelStatus = NewUserModel(id);
+    
+            // Handle the response from NewUserModel function
+            if (modelStatus === 'Added') {
+                // User and model creation successful
+                return res.status(201).json(user);
+            } else {
+                // Error occurred during model creation
+                return res.status(500).json({
+                    message: 'Error when creating user model',
+                    error: modelStatus  // You can customize the error message returned by the NewUserModel function
+                });
+            }
+        });
+    },
+    
 };
