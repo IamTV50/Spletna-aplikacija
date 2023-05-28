@@ -12,6 +12,7 @@ router.get('/:username/user', userController.show);
 
 router.post('/', userController.create);
 router.post('/login', userController.login);
+router.post('/register', userController.register);
 
 router.put('/:id/edit', userController.update);
 
