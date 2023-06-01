@@ -182,58 +182,89 @@ module.exports = {
             });
         }
     },
-    register: function (req, res) {
-        var id = req.params.id;
+    register: async function (req, res) {
+        try {
+            var id = req.params.id;
     
-        var user = new UserModel({
-            username: req.body.username,
-            password: req.body.password,
-            email: req.body.email,
-            pictures: req.body.pictures
-        });
+            var user = new UserModel({
+                username: req.body.username,
+                password: req.body.password,
+                email: req.body.email,
+                images: req.body.images
+            });
     
-        user.save(function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when creating user',
-                    error: err
+            await user.save();
+    
+            // Assuming req.body.images is an array of { data: Buffer, contentType: String }
+            
+            // Import the necessary modules
+            const fs = require('fs');
+            const path = require('path');
+    
+            // Save pictures to files
+            const images = req.body.images;
+            const savePromises = [];
+            images.forEach((imageData, index) => {
+                // Create a unique filename for each picture
+                const filename = `picture_${index}.png`;
+                // Get the image data and content type
+                const { data, contentType } = imageData;
+                // Define the file path to save the picture
+                const filePath = path.join(__dirname, '../user_ pictures', filename);
+                
+                // Create a promise to save the picture
+                const savePromise = new Promise((resolve, reject) => {
+                    // Save the picture to file
+                    fs.writeFile(filePath, data, 'base64', (err) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
+                    });
                 });
-            }
     
-            // Save pictures to a file
-            var picturesData = JSON.stringify(req.body.pictures);
-            fs.writeFile('user_pictures.json', picturesData, 'utf8', async function (err) {
-                if (err) {
+                // Add the promise to the array
+                savePromises.push(savePromise);
+            });
+    
+            // Wait for all the pictures to be saved
+            await Promise.all(savePromises);
+            console.log("kurba");
+            // Execute Python script
+            exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
+                if (error) {
+                    // Error occurred during script execution
                     return res.status(500).json({
-                        message: 'Error when saving pictures',
+                        message: 'Error when executing Python script',
+                        error: error.message
+                    });
+                }
+    
+                // Delete pictures files
+                try {
+                    for (const image of images) {
+                        await unlink(image.path);
+                    }
+                } catch (err) {
+                    return res.status(500).json({
+                        message: 'Error when deleting pictures',
                         error: err
                     });
                 }
     
-                // Execute Python script
-                exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
-                    if (error) {
-                        // Error occurred during script execution
-                        return res.status(500).json({
-                            message: 'Error when executing Python script',
-                            error: error.message
-                        });
-                    }
-    
-                    // Delete pictures file
-                    try {
-                        await unlink('user_pictures.json');
-                    } catch (err) {
-                        return res.status(500).json({
-                            message: 'Error when deleting pictures',
-                            error: err
-                        });
-                    }
-    
-                    // Successful script execution and deletion of pictures
-                    return res.status(201).json(user);
-                });
+                // Successful script execution and deletion of pictures
+                return res.status(201).json(user);
             });
-        });
+        } catch (err) {
+            return res.status(500).json({
+                message: 'Error when creating user',
+                error: err
+            });
+        }
     },
-};
+
+    loginFace : async function (req, res){
+
+    }
+}
