@@ -1,5 +1,8 @@
 var UserModel = require('../models/userModel.js');
 const { exec } = require('child_process');
+const fs = require('fs');
+const util = require('util');
+const unlink = util.promisify(fs.unlink);
 
 /**
  * userController.js
@@ -181,13 +184,14 @@ module.exports = {
     },
     register: function (req, res) {
         var id = req.params.id;
-
+    
         var user = new UserModel({
             username: req.body.username,
             password: req.body.password,
             email: req.body.email,
+            pictures: req.body.pictures
         });
-
+    
         user.save(function (err, user) {
             if (err) {
                 return res.status(500).json({
@@ -195,20 +199,41 @@ module.exports = {
                     error: err
                 });
             }
-
-            exec(`python python-scripts/addUser.py ${id}`, (error, stdout, stderr) => {
-                if (error) {
-                    // Error occurred during script execution
+    
+            // Save pictures to a file
+            var picturesData = JSON.stringify(req.body.pictures);
+            fs.writeFile('user_pictures.json', picturesData, 'utf8', async function (err) {
+                if (err) {
                     return res.status(500).json({
-                        message: 'Error when executing Python script',
-                        error: error.message
+                        message: 'Error when saving pictures',
+                        error: err
                     });
                 }
-
-                // Successful script execution
-                return res.status(201).json(user);
+    
+                // Execute Python script
+                exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
+                    if (error) {
+                        // Error occurred during script execution
+                        return res.status(500).json({
+                            message: 'Error when executing Python script',
+                            error: error.message
+                        });
+                    }
+    
+                    // Delete pictures file
+                    try {
+                        await unlink('user_pictures.json');
+                    } catch (err) {
+                        return res.status(500).json({
+                            message: 'Error when deleting pictures',
+                            error: err
+                        });
+                    }
+    
+                    // Successful script execution and deletion of pictures
+                    return res.status(201).json(user);
+                });
             });
         });
     },
-
 };

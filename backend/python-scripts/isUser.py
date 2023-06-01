@@ -8,7 +8,7 @@ from hog import hog
 
 def CheckUserModel(id):
     images = []
-    for file in glob.glob("*"):
+    for file in glob.glob("check_user/*"):
         img = cv2.imread(file)
         img = cv2.resize(img, (100, 100))
         gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
