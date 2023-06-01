@@ -10,6 +10,7 @@ from lbp import lbp
 from hog import hog
 
 def NewUSerModel(id):
+    print("aaaaaa")
     labels = []
     for i in range(560):
         if i<530:
@@ -18,13 +19,15 @@ def NewUSerModel(id):
             labels.append(1)
 
     labels = np.array(labels)
-    with h5py.File('face_models/basemodel.h5', 'r') as f:
+    with h5py.File('../face_models/basemodel.h5', 'r') as f:
         data = f['basemodel'][:]
 
+
+    print("aaa")
     data=np.array(data)
     images = []
     g=0
-    for file in glob.glob("..."):  
+    for file in glob.glob("../user_pictures/*"):  
         if g<30:
             img=cv2.imread(file)
             img = cv2.resize(img, (100, 100))
@@ -61,5 +64,5 @@ def NewUSerModel(id):
 
     # Evaluate model
     test_loss, test_acc = model.evaluate(X_test, y_test_encoded)
-    model.save("models/"+id+".h5")
+    model.save("face_models/"+id+".h5")
     return "Added"
