@@ -2,7 +2,9 @@ var UserModel = require('../models/userModel.js');
 const { exec } = require('child_process');
 const fs = require('fs');
 const util = require('util');
+const path = require('path');
 const unlink = util.promisify(fs.unlink);
+const multer = require('multer');
 
 /**
  * userController.js
@@ -184,85 +186,75 @@ module.exports = {
     },
     register: async function (req, res) {
         try {
-            var id = req.params.id;
+          var id = req.params.id;
     
-            var user = new UserModel({
-                username: req.body.username,
-                password: req.body.password,
-                email: req.body.email,
-                images: req.body.images
-            });
+          var user = new UserModel({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            images: req.body.images
+          });
+          console.log(req.body.username);
+          await user.save();
     
-            await user.save();
+          // Set up multer storage
+          const storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+              cb(null, path.join(__dirname, '../user_pictures'));
+            },
+            filename: function (req, file, cb) {
+              cb(null, `picture_${Date.now()}_${file.originalname}`);
+            }
+          });
     
-            // Assuming req.body.images is an array of { data: Buffer, contentType: String }
-            
-            // Import the necessary modules
-            const fs = require('fs');
-            const path = require('path');
+          // Create multer upload middleware
+          const upload = multer({ storage: storage }).array('images', 5);
     
-            // Save pictures to files
-            const images = req.body.images;
-            const savePromises = [];
-            images.forEach((imageData, index) => {
-                // Create a unique filename for each picture
-                const filename = `picture_${index}.png`;
-                // Get the image data and content type
-                const { data, contentType } = imageData;
-                // Define the file path to save the picture
-                const filePath = path.join(__dirname, '../user_ pictures', filename);
-                
-                // Create a promise to save the picture
-                const savePromise = new Promise((resolve, reject) => {
-                    // Save the picture to file
-                    fs.writeFile(filePath, data, 'base64', (err) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve();
-                        }
-                    });
-                });
+          // Use the upload middleware to handle file uploads
+          upload(req, res, async function (err) {
+            if (err) {
+              return res.status(500).json({
+                message: 'Error when uploading pictures',
+                error: err
+              });
+            }
     
-                // Add the promise to the array
-                savePromises.push(savePromise);
-            });
+            // Assuming req.files is an array of uploaded files
     
-            // Wait for all the pictures to be saved
-            await Promise.all(savePromises);
-            console.log("kurba");
             // Execute Python script
             exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
-                if (error) {
-                    // Error occurred during script execution
-                    return res.status(500).json({
-                        message: 'Error when executing Python script',
-                        error: error.message
-                    });
-                }
+              if (error) {
+                // Error occurred during script execution
+                return res.status(500).json({
+                  message: 'Error when executing Python script',
+                  error: error.message
+                });
+              }
     
-                // Delete pictures files
-                try {
-                    for (const image of images) {
-                        await unlink(image.path);
-                    }
-                } catch (err) {
-                    return res.status(500).json({
-                        message: 'Error when deleting pictures',
-                        error: err
-                    });
+              // Delete picture files
+              try {
+                for (const file of req.files) {
+                  await unlink(file.path);
                 }
+              } catch (err) {
+                return res.status(500).json({
+                  message: 'Error when deleting pictures',
+                  error: err
+                });
+              }
     
-                // Successful script execution and deletion of pictures
-                return res.status(201).json(user);
+              // Successful script execution and deletion of pictures
+              return res.status(201).json(user);
             });
+          });
         } catch (err) {
-            return res.status(500).json({
-                message: 'Error when creating user',
-                error: err
-            });
+          return res.status(500).json({
+            message: 'Error when creating user',
+            error: err
+          });
         }
     },
+      
 
     loginFace : async function (req, res){
 
