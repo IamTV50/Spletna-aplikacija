@@ -224,12 +224,11 @@ module.exports = {
             console.log('Python script output:', stdout);
         });
         
-          /*const pictures = req.files;
+          const pictures = req.files;
           pictures.forEach((picture) => {
             // Delete the specific picture file
             fs.unlinkSync(picture.path);
-          });*/
-      
+          });      
           return res.status(201).json({ message: 'Registration successful' });
         },
 
