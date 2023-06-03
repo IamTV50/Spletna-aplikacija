@@ -13,7 +13,7 @@ router.get('/loginFace', userController.loginFace);
 
 router.post('/', userController.create);
 router.post('/login', userController.login);
-router.post('/register/:id', userController.register);
+router.post('/register/:username', userController.register);
 
 router.put('/:id/edit', userController.update);
 
