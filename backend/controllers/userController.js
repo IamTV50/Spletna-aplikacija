@@ -5,6 +5,7 @@ const util = require('util');
 const path = require('path');
 const unlink = util.promisify(fs.unlink);
 const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() }).array('images', 1);
 
 /**
  * userController.js
@@ -184,135 +185,105 @@ module.exports = {
             });
         }
     },
+
     register: async function (req, res) {
         try {
-          var id = req.params.id;
-    
-          var user = new UserModel({
-            username: req.body.username,
-            password: req.body.password,
-            email: req.body.email,
-            images: req.body.images
-          });
-          console.log(req.body.username);
-          await user.save();
-    
-          // Set up multer storage
-          const storage = multer.diskStorage({
-            destination: function (req, file, cb) {
-              cb(null, path.join(__dirname, '../user_pictures'));
-            },
-            filename: function (req, file, cb) {
-              cb(null, `picture_${Date.now()}_${file.originalname}`);
-            }
-          });
-    
-          // Create multer upload middleware
-          const upload = multer({ storage: storage }).array('images', 5);
-    
-          // Use the upload middleware to handle file uploads
-          upload(req, res, async function (err) {
-            if (err) {
-              return res.status(500).json({
-                message: 'Error when uploading pictures',
-                error: err
-              });
-            }
-    
-            // Assuming req.files is an array of uploaded files
-    
+
+            // Call the upload middleware
+            await new Promise((resolve, reject) => {
+                upload(req, res, (err) => {
+                    if (err) {
+                        console.error('Error in upload middleware:', err); // Log the error
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                });
+            });
+
+            var id = req.params.id;
+
             // Execute Python script
             exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
-              if (error) {
-                // Error occurred during script execution
-                return res.status(500).json({
-                  message: 'Error when executing Python script',
-                  error: error.message
-                });
-              }
-    
-              // Delete picture files
-              try {
-                for (const file of req.files) {
-                  await unlink(file.path);
+                if (error) {
+                    // Error occurred during script execution
+                    return res.status(500).json({
+                        message: 'Error when executing Python script',
+                        error: error.message
+                    });
                 }
-              } catch (err) {
-                return res.status(500).json({
-                  message: 'Error when deleting pictures',
-                  error: err
-                });
-              }
-    
-              // Successful script execution and deletion of pictures
-              return res.status(201).json(user);
+
+                // Successful script execution and deletion of pictures
+                return res.status(201);
             });
-          });
+
         } catch (err) {
-          return res.status(500).json({
-            message: 'Error when creating user',
-            error: err
-          });
+            return res.status(500).json({
+                message: 'Error when creating user',
+                error: err
+            });
         }
     },
-      
 
-    loginFace : async function (req, res){
-            try {
-                var id = req.params.id;
-                var image = req.body.image;
-                console.log(id);
-                console.log(image);
-                // Assuming req.body.image is a { data: Buffer, contentType: String } object
-        
-                // Import the necessary modules
-                const fs = require('fs');
-                const path = require('path');
-        
-                // Save the face image to a file
-                const filename = 'face_image.png';
-                const filePath = path.join(__dirname, '../face_images', filename);
-                const { data, contentType } = image;
-                
-                await fs.promises.writeFile(filePath, data, 'base64');
-        
-                // Execute Python script
-                exec(`python python-scripts/isUser.py ${id}`, async (error, stdout, stderr) => {
-                    if (error) {
-                        // Error occurred during script execution
-                        return res.status(500).json({
-                            message: 'Error when executing Python script',
-                            error: error.message
-                        });
-                    }
-        
-                    // Read the output file generated by the Python script
-                    const outputFile = path.join(__dirname, '../output.txt');
-                    const outputData = await fs.promises.readFile(outputFile, 'utf8');
-        
-                    // Delete the face image file
-                    await fs.promises.unlink(filePath);
-        
-                    // Delete the output file
-                    await fs.promises.unlink(outputFile);
-        
-                    // Parse the output data
-                    const result = JSON.parse(outputData);
-        
-                    // Check if the user is authenticated
-                    if (result.authenticated) {
-                        return res.status(200).json({ message: 'User authenticated', user: result.user });
-                    } else {
-                        return res.status(401).json({ message: 'User not authenticated' });
-                    }
-                });
-            } catch (err) {
-                return res.status(500).json({
-                    message: 'Error when logging in with face recognition',
-                    error: err
-                });
-            }
+
+
+    loginFace: async function (req, res) {
+        try {
+            var id = req.params.id;
+            var image = req.body.image;
+            console.log(id);
+            console.log(image);
+            // Assuming req.body.image is a { data: Buffer, contentType: String } object
+
+            // Import the necessary modules
+            const fs = require('fs');
+            const path = require('path');
+
+            // Save the face image to a file
+            const filename = 'face_image.png';
+            const filePath = path.join(__dirname, '../face_images', filename);
+            const { data, contentType } = image;
+
+            await fs.promises.writeFile(filePath, data, 'base64');
+
+            // Execute Python script
+            exec(`python python-scripts/isUser.py ${id}`, async (error, stdout, stderr) => {
+                if (error) {
+                    // Error occurred during script execution
+                    return res.status(500).json({
+                        message: 'Error when executing Python script',
+                        error: error.message
+                    });
+                }
+
+                // Read the output file generated by the Python script
+                const outputFile = path.join(__dirname, '../output.txt');
+                const outputData = await fs.promises.readFile(outputFile, 'utf8');
+
+                // Delete the face image file
+                await fs.promises.unlink(filePath);
+
+                // Delete the output file
+                await fs.promises.unlink(outputFile);
+
+                // Parse the output data
+                const result = JSON.parse(outputData);
+
+                // Check if the user is authenticated
+                if (result.authenticated) {
+                    return res.status(200).json({ message: 'User authenticated', user: result.user });
+                } else {
+                    return res.status(401).json({ message: 'User not authenticated' });
+                }
+            });
+        } catch (err) {
+            return res.status(500).json({
+                message: 'Error when logging in with face recognition',
+                error: err
+            });
         }
-        
-        
-    
+    }
+
+
+
 }
