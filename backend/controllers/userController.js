@@ -5,7 +5,18 @@ const util = require('util');
 const path = require('path');
 const unlink = util.promisify(fs.unlink);
 const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() }).array('images', 1);
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './user_pictures'); // Specify the destination directory for saving the files
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const filename = `user_${req.params.id}_${uniqueSuffix}${path.extname(file.originalname)}`;
+      cb(null, filename); // Set the filename for the uploaded file
+    }
+  });
+const upload = multer({ storage }).array('images', 30);
+  
 
 /**
  * userController.js
@@ -186,23 +197,22 @@ module.exports = {
         }
     },
 
-    register: async function (req, res) {
-        try {
 
+    register: async function (req, res) {
             // Call the upload middleware
             await new Promise((resolve, reject) => {
                 upload(req, res, (err) => {
                     if (err) {
-                        console.error('Error in upload middleware:', err); // Log the error
+                        console.error('Error in upload middleware:', err);
                         reject(err);
                     } else {
                         resolve();
                     }
                 });
             });
-
+            console.log("a");
             var id = req.params.id;
-
+            console.log(id);
             // Execute Python script
             exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
                 if (error) {
@@ -212,21 +222,11 @@ module.exports = {
                         error: error.message
                     });
                 }
-
-                // Successful script execution and deletion of pictures
-                return res.status(201);
+    
+                // Successful script execution and saving of pictures
+                return res.status(201).json(savedFiles);
             });
-
-        } catch (err) {
-            return res.status(500).json({
-                message: 'Error when creating user',
-                error: err
-            });
-        }
     },
-
-
-
     loginFace: async function (req, res) {
         try {
             var id = req.params.id;
