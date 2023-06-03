@@ -9,7 +9,7 @@ router.get('/lista', userController.list);
 router.get('/profile', userController.profile);
 router.get('/logout', userController.logout);
 router.get('/:username/user', userController.show);
-router.get('/loginFace', userController.loginFace);
+router.post('/loginFace', userController.loginFace);
 
 router.post('/', userController.create);
 router.post('/login', userController.login);
