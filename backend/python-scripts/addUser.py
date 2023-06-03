@@ -10,32 +10,29 @@ from lbp import lbp
 from hog import hog
 import argparse
 
-def NewUSerModel(id):
+def NewUserModel(id):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, '..', 'face_models', 'baseModel.h5')
+    data = []
+    with h5py.File(file_path, 'r') as f:
+        data = f['basemodel'][:]
+    data = np.array(data)
+
     labels = []
-    for i in range(560):
-        if i<530:
+    for i in range(data.shape[0] + 2 ):
+        if i < 530:
             labels.append(0)
         else:
             labels.append(1)
 
     labels = np.array(labels)
 
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(script_dir, '..', 'face_models', 'baseModel.h5')
-
-    with h5py.File(file_path, 'r') as f:
-        data = f['basemodel'][:]
-
-    
-    data=np.array(data)
-
     images = []
-    i=0
+    i = 0
 
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    user_pictures_dir = os.path.join(script_dir, '..', 'user_pictures','*.jpeg')
-    
-    for file in glob.glob(user_pictures_dir):  
+    user_pictures_dir = os.path.join(script_dir, '..', 'user_pictures', '*.jpeg')
+
+    for file in glob.glob(user_pictures_dir):
         if i < 30:
             img = cv2.imread(file)
             if img is not None:
@@ -47,17 +44,23 @@ def NewUSerModel(id):
                 images.append(feature_vector)
             else:
                 logging.warning(f"Failed to read image: {file}")
-        i = i + 1
+        i += 1
 
     images = np.array(images)
-    data=np.vstack((data, images))
+    print("Dimensions of 'images' array:", images.shape)
+    print("Dimensions of 'data' array:", data.shape)
+
+    # Resize images to match the number of columns in the data array
+    images = np.resize(images, (images.shape[0], data.shape[1]))
+
+    data = np.concatenate((data, images), axis=0)
 
     # Split data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(data, labels, train_size=0.9, random_state=80, stratify=labels)
     # One-hot encode labels
     num_classes = len(np.unique(labels))
     y_train_encoded = tf.keras.utils.to_categorical(y_train, num_classes)
-    y_test_encoded =  tf.keras.utils.to_categorical(y_test, num_classes)
+    y_test_encoded = tf.keras.utils.to_categorical(y_test, num_classes)
 
     # Define neural network architecture
     model = tf.keras.models.Sequential([
@@ -76,13 +79,14 @@ def NewUSerModel(id):
 
     # Evaluate model
     test_loss, test_acc = model.evaluate(X_test, y_test_encoded)
-    model.save("../face_models/"+id+".h5")
-    return "Added"
+    model_path = os.path.join(script_dir, '..', 'face_models', id + '.h5')
+    model.save(model_path)
 
+    return "Added"
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument("arg1", type=str, help="First argument")
 args = parser.parse_args()
 
-NewUSerModel(args.arg1)
+NewUserModel(args.arg1)
