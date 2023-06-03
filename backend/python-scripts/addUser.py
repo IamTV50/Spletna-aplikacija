@@ -10,7 +10,6 @@ from lbp import lbp
 from hog import hog
 
 def NewUSerModel(id):
-    print("aaaaaa")
     labels = []
     for i in range(560):
         if i<530:
@@ -23,7 +22,6 @@ def NewUSerModel(id):
         data = f['basemodel'][:]
 
 
-    print("aaa")
     data=np.array(data)
     images = []
     g=0
