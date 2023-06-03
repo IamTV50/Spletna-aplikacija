@@ -259,8 +259,15 @@ module.exports = {
                     });
                 }
 
+                const pictures = req.files;
+                pictures.forEach((picture) => {
+                  // Delete the specific picture file
+                  fs.unlinkSync(picture.path);
+                });
+            
+
                 // Successful script execution and deletion of pictures
-                return res.status(201).json(savedFiles);
+                return res.status(201).json({message: 'Face login success '});
             });
 
         } catch (err) {
