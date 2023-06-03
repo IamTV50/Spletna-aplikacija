@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      const filename = `user_${req.params.id}_${uniqueSuffix}${path.extname(file.originalname)}`;
+      const filename = `user_${req.params.username}_${uniqueSuffix}${path.extname(file.originalname)}`;
       cb(null, filename); // Set the filename for the uploaded file
     }
   });
@@ -197,36 +197,40 @@ module.exports = {
         }
     },
 
-
     register: async function (req, res) {
-            // Call the upload middleware
-            await new Promise((resolve, reject) => {
-                upload(req, res, (err) => {
-                    if (err) {
-                        console.error('Error in upload middleware:', err);
-                        reject(err);
-                    } else {
-                        resolve();
-                    }
-                });
+        // Call the upload middleware
+        await new Promise((resolve, reject) => {
+          upload(req, res, (err) => {
+            if (err) {
+              console.error('Error in upload middleware:', err);
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        });
+      
+        var id = req.params.username;
+        // Execute Python script
+        exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
+          if (error) {
+            // Error occurred during script execution
+            return res.status(500).json({
+              message: 'Error when executing Python script',
+              error: error.message
             });
-            console.log("a");
-            var id = req.params.id;
-            console.log(id);
-            // Execute Python script
-            exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
-                if (error) {
-                    // Error occurred during script execution
-                    return res.status(500).json({
-                        message: 'Error when executing Python script',
-                        error: error.message
-                    });
-                }
-    
-                // Successful script execution and saving of pictures
-                return res.status(201).json(savedFiles);
-            });
-    },
+          }
+      
+          const pictures = req.files;
+          pictures.forEach((picture) => {
+            // Delete the specific picture file
+            fs.unlinkSync(picture.path);
+          });
+      
+          return res.status(201).json({ message: 'Registration successful' });
+        });
+      },
+      
     loginFace: async function (req, res) {
         try {
 
