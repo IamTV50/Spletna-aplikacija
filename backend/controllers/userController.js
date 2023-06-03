@@ -211,26 +211,28 @@ module.exports = {
         });
       
         var id = req.params.username;
+        var pythonScriptPath = 'python-scripts/addUser.py';
         // Execute Python script
-        exec(`python python-scripts/addUser.py ${id}`, async (error, stdout, stderr) => {
-          if (error) {
-            // Error occurred during script execution
-            return res.status(500).json({
-              message: 'Error when executing Python script',
-              error: error.message
-            });
-          }
-      
-          const pictures = req.files;
+        exec(`python ${pythonScriptPath} ${id}`, async (error, stdout, stderr) => {
+            if (error) {
+                // Handle error
+                console.error('Error when executing Python script:', error);
+                return;
+            }
+            // Handle script execution success
+            console.log('Python script executed successfully');
+            console.log('Python script output:', stdout);
+        });
+        
+          /*const pictures = req.files;
           pictures.forEach((picture) => {
             // Delete the specific picture file
             fs.unlinkSync(picture.path);
-          });
+          });*/
       
           return res.status(201).json({ message: 'Registration successful' });
-        });
-      },
-      
+        },
+
     loginFace: async function (req, res) {
         try {
 

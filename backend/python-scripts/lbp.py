@@ -20,7 +20,7 @@ def lbp(image):
     powers_of_two = np.array([1, 2, 4, 8, 16, 32, 64, 128], dtype=np.uint8)
     lbp_values = np.sum(binary_pattern * powers_of_two, axis=-1)
     lbp_image = np.zeros_like(image, dtype=np.uint8)
-
+    
     # Pretvori vrednosti LBP v slikovno obliko
     lbp_image = lbp_values
 
