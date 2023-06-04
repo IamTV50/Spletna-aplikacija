@@ -249,8 +249,9 @@ module.exports = {
 
             var id = req.params.username;
             console.log(id);
+            var pythonScriptPath = 'python-scripts/isUser.py';
             // Execute Python script
-            exec(`python python-scripts/isUser.py ${id}`, async (error, stdout, stderr) => {
+            exec(`python ${pythonScriptPath} ${id}`, async (error, stdout, stderr) => {
                 if (error) {
                     // Error occurred during script execution
                     return res.status(500).json({
