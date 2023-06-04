@@ -5,10 +5,11 @@ import cv2
 import tensorflow as tf
 from lbp import lbp
 from hog import hog
+import argparse
 
 def CheckUserModel(id):
     images = []
-    for file in glob.glob("*"):
+    for file in glob.glob("check_user/*"):
         img = cv2.imread(file)
         img = cv2.resize(img, (100, 100))
         gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -33,3 +34,8 @@ def CheckUserModel(id):
 
     # Print the array of accuracies
     return accuracies
+
+parser = argparse.ArgumentParser()
+parser.add_argument("arg1", type=str, help="First argument")
+args = parser.parse_args()
+CheckUserModel(args.arg1)

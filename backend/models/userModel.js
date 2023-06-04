@@ -9,7 +9,11 @@ var userSchema = new Schema({
 	'admin' : {
 		type: Boolean,
 		default: false
-	}
+	},
+	'images': [{
+        data: Buffer,
+        contentType: String
+    }]  
 });
 
 userSchema.pre('save', function(next){
