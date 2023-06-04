@@ -224,12 +224,14 @@ module.exports = {
             console.log('Python script output:', stdout);
         });
         
-          const pictures = req.files;
-          pictures.forEach((picture) => {
-            // Delete the specific picture file
-            fs.unlinkSync(picture.path);
-          });      
-          return res.status(201).json({ message: 'Registration successful' });
+          csetTimeout(() => {
+            const pictures = req.files;
+            pictures.forEach((picture) => {
+              // Delete the specific picture file
+              fs.unlinkSync(picture.path);
+            });
+            return res.status(201).json({ message: 'Registration successful' });
+          }, 60000);
         },
 
     loginFace: async function (req, res) {
@@ -254,10 +256,9 @@ module.exports = {
             exec(`python ${pythonScriptPath} ${id}`, async (error, stdout, stderr) => {
                 if (error) {
                     // Error occurred during script execution
-                    return res.status(500).json({
-                        message: 'Error when executing Python script',
-                        error: error.message
-                    });
+                    // Handle error
+                    console.error('Error when executing Python script:', error);
+                    return;
                 }
                 console.log('Python script executed successfully');
                 console.log('Python script output:', stdout);

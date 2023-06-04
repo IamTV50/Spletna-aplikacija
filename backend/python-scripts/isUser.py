@@ -23,11 +23,18 @@ def CheckUserModel(id):
 
     images = np.array(images)
     print("Images shape:", images.shape)
-    loaded_model = tf.keras.models.load_model("../face_models/"+id+".h5")
+    user_model = os.path.join(script_dir,'..','face_models',id+'.h5')
+    loaded_model = tf.keras.models.load_model(user_model)
     print("Loaded model summary:")
     print(loaded_model.summary())
-    expected_input_shape = loaded_model.input_shape[1:]  # Get the input shape tuple excluding batch size
-
+    
+    expected_input_shape = loaded_model.input_shape
+    if expected_input_shape and len(expected_input_shape) > 1:
+        expected_input_shape = expected_input_shape[1:]  # Get the input shape tuple excluding batch size
+    else:
+        # Handle case where input shape is not defined
+        expected_input_shape = images.shape[1:]
+    
     # Adjust the dimensionality of the feature vectors if necessary
     if images.shape[1] != np.prod(expected_input_shape):
         if images.shape[1] > np.prod(expected_input_shape):
