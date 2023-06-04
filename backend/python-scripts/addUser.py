@@ -19,7 +19,7 @@ def NewUserModel(id):
     data = np.array(data)
 
     labels = []
-    for i in range(data.shape[0] + 2 ):
+    for i in range(data.shape[0] ):
         if i < 530:
             labels.append(0)
         else:

@@ -247,8 +247,8 @@ module.exports = {
                 });
             });
 
-            var id = req.params.id;
-
+            var id = req.params.username;
+            console.log(id);
             // Execute Python script
             exec(`python python-scripts/isUser.py ${id}`, async (error, stdout, stderr) => {
                 if (error) {
@@ -258,6 +258,8 @@ module.exports = {
                         error: error.message
                     });
                 }
+                console.log('Python script executed successfully');
+                console.log('Python script output:', stdout);
 
                 const pictures = req.files;
                 pictures.forEach((picture) => {
