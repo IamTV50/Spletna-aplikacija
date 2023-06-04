@@ -38,5 +38,4 @@ def CheckUserModel(id):
 parser = argparse.ArgumentParser()
 parser.add_argument("arg1", type=str, help="First argument")
 args = parser.parse_args()
-
 CheckUserModel(args.arg1)
