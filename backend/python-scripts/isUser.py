@@ -22,10 +22,8 @@ def CheckUserModel(id):
         images.append(feature_vector)
 
     images = np.array(images)
-    print("Images shape:", images.shape)
     user_model = os.path.join(script_dir,'..','face_models',id+'.h5')
     loaded_model = tf.keras.models.load_model(user_model)
-    print("Loaded model summary:")
     print(loaded_model.summary())
     
     expected_input_shape = loaded_model.input_shape
@@ -43,15 +41,13 @@ def CheckUserModel(id):
             padding = np.zeros((images.shape[0], np.prod(expected_input_shape) - images.shape[1]))
             images = np.concatenate((images, padding), axis=1)
 
-    print("Adjusted Images shape:", images.shape)
-
     labels = np.ones(3)
 
     # Predict the labels for the three images
     three_predictions = loaded_model.predict(images)
     predicted_labels = np.argmax(three_predictions, axis=1)
     accuracy = np.mean(predicted_labels == labels)
-    print("Accuracy for the three images:", accuracy)
+    print("Accuracy:", accuracy)
 
     # Append the accuracy to an array
     accuracies = []
