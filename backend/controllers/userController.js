@@ -236,6 +236,7 @@ module.exports = {
 
     loginFace: async function (req, res) {
         try {
+            
 
             // Call the upload middleware
             await new Promise((resolve, reject) => {
@@ -252,6 +253,7 @@ module.exports = {
             var id = req.params.username;
             console.log(id);
             var pythonScriptPath = 'python-scripts/isUser.py';
+            const timeoutDuration = 60000; 
             // Execute Python script
             exec(`python ${pythonScriptPath} ${id}`, async (error, stdout, stderr) => {
                 if (error) {
@@ -262,7 +264,6 @@ module.exports = {
                 }
                 console.log('Python script executed successfully');
                 console.log('Python script output:', stdout);
-
                 const pictures = req.files;
                 pictures.forEach((picture) => {
                   // Delete the specific picture file
@@ -280,8 +281,7 @@ module.exports = {
                 error: err
             });
         }
-      }
+      },
 
-
-
+    
 }
