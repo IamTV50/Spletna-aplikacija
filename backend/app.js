@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var timeout = require('connect-timeout');
 
 // vključimo mongoose in ga povežemo z MongoDB
 var mongoose = require('mongoose');
@@ -19,6 +20,8 @@ var boxRouter = require('./routes/boxRoutes');
 var logRouter = require('./routes/logRoutes');
 
 var app = express();
+
+app.use(timeout('120s'));
 
 var cors = require('cors');
 var allowedOrigins = ['http://localhost:3000', 'http://localhost:3001'];
