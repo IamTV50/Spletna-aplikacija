@@ -254,6 +254,7 @@ module.exports = {
             console.log(id);
             var pythonScriptPath = 'python-scripts/isUser.py';
             const timeoutDuration = 60000; 
+            clearTimeout(timeoutDuration);
             // Execute Python script
             exec(`python ${pythonScriptPath} ${id}`, async (error, stdout, stderr) => {
                 if (error) {
@@ -269,7 +270,7 @@ module.exports = {
                   // Delete the specific picture file
                   fs.unlinkSync(picture.path);
                 });
-            
+                
 
                 // Successful script execution and deletion of pictures
                 return res.status(201).json({message: 'Face login success '});
