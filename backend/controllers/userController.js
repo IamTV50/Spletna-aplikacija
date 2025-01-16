@@ -5,6 +5,11 @@ const util = require('util');
 const path = require('path');
 const unlink = util.promisify(fs.unlink);
 const multer = require('multer');
+
+const { compress, decompress } = require('../utils/compressionUtils.js');
+const AdmZip = require('adm-zip');
+const { type } = require('os');
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './user_pictures'); // Specify the destination directory for saving the files
@@ -224,8 +229,11 @@ module.exports = {
             console.log('Python script output:', stdout);
         });
         
-          csetTimeout(() => {
+          setTimeout(() => {
             const pictures = req.files;
+
+            // decompress file back to picture?
+
             pictures.forEach((picture) => {
               // Delete the specific picture file
               fs.unlinkSync(picture.path);
@@ -237,6 +245,58 @@ module.exports = {
     loginFace: async function (req, res) {
         try {
             
+            // Testing code for compressed data
+            if (!req.body.compressedDataArray) { // "compressedDataArray" MUST ME NAMED SAME AS IN FaceLoginRequest.kt
+                return res.status(400).json({ error: 'No compressed data received' });
+            }
+    
+            console.log('doing stuff');
+
+            console.log('data:', req.body.compressedDataArray);
+
+            // 1. Convert the received integer array to a character array
+            const charArray = req.body.compressedDataArray.map(num => String.fromCharCode(num));
+
+            // 2. Convert the character array to a string
+            const compressedString = charArray.join('');
+            console.log('Compressed string:', compressedString);
+
+            // 3. Decompress the string using the decompress function
+            const decompressedArray = decompress(compressedString);
+            console.log('Decompressed array:', decompressedArray);
+
+            // 4. Convert the decompressed number array to a base64 string
+            const base64String = decompressedArray.map(num => String.fromCharCode(num)).join('');
+            console.log('Base64 string:', base64String);
+
+            // 5. Convert the base64 string to a zip buffer
+            const zipBuffer = Buffer.from(base64String, 'base64');
+
+            // 6. Extract the zip buffer to the user_pictures directory
+            const userPicturesDir = path.join(__dirname, '../user_pictures');
+            if (!fs.existsSync(userPicturesDir)) {
+                fs.mkdirSync(userPicturesDir);
+            }
+
+            const tempZipPath = path.join(userPicturesDir, 'temp.zip');
+            fs.writeFileSync(tempZipPath, zipBuffer);
+
+            const zip = new AdmZip(tempZipPath);
+            const userDir = path.join(userPicturesDir, req.params.username);
+
+            if (!fs.existsSync(userDir)) {
+                fs.mkdirSync(userDir);
+            }
+
+            zip.extractAllTo(userDir, true);
+
+            // Cleanup
+            fs.unlinkSync(tempZipPath);
+
+            console.log("Images extracted to:", userPicturesDir);
+
+
+            return res.status(201).json({ message: 'Face login TEST success' });
 
             // Call the upload middleware
             await new Promise((resolve, reject) => {
