@@ -4,10 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var timeout = require('connect-timeout');
+var bodyParser = require('body-parser');
 
 // vključimo mongoose in ga povežemo z MongoDB
 var mongoose = require('mongoose');
-var mongoDB = "mongodb+srv://filipmihelic:filip321@cluster0.2r43jvg.mongodb.net/paketnik";
+var mongoDB = "mongodb+srv://Admin:1234@cluster0.0fg74.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -37,6 +38,10 @@ app.use(cors({
     return callback(null, true);
   }
 }));
+
+// Increase payload size limit
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -88,6 +93,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   //res.render('error');
   res.json(err);
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;
